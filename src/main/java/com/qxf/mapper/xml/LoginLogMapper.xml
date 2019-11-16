@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.LoginLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qxf.pojo.LoginLog">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="login_time" property="loginTime"/>
+        <result column="login_ip" property="loginIp"/>
+        <result column="login_total" property="loginTotal"/>
+    </resultMap>
+
+    <select id="findMaxLoginTatalByUserId" resultType="java.lang.Integer">
+	SELECT
+		COUNT(IFNULL(log.login_total, 0)) + 1 AS loginTotal
+	FROM
+		`t_login_log` log
+	WHERE
+		log.user_id = #{userId}
+	ORDER BY
+		log.login_total DESC
+	LIMIT 1
+	</select>
+
+    <select id="findUserLoginLogByPage" resultMap="BaseResultMap">
+        SELECT
+        login_log.login_time,
+        login_log.login_ip,
+        u.username
+        FROM
+        t_login_log login_log
+        INNER JOIN t_user u ON login_log.user_id = u.id
+        WHERE
+        (1 = 1)
+        <if test="''!=searchKeyWord">
+            AND (u.username LIKE CONCAT('%',#{searchKeyWord},'%')
+            OR login_log.login_ip LIKE CONCAT('%',#{searchKeyWord},'%'))
+        </if>
+        ORDER BY login_log.login_time DESC
+    </select>
+
+
+    <select id="findUserLoginTotal" resultMap="BaseResultMap">
+    SELECT
+        u.username,
+        MAX(login_log.login_total) AS loginTotal
+    FROM
+        t_login_log login_log
+    INNER JOIN t_user u ON login_log.user_id = u.id
+    WHERE
+        (1 = 1)
+    GROUP BY
+        u.id
+    </select>
+
+</mapper>

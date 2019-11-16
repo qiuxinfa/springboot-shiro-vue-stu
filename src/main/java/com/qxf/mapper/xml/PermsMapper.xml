@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.PermissionMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.qxf.pojo.Perms">
+		<id column="id" property="id" />
+		<result column="url" property="url" />
+		<result column="name" property="name" />
+		<result column="parent_id" property="parentId" />
+		<result column="sort" property="sort" />
+		<result column="type" property="type" />
+	</resultMap>
+
+	<!--分页查询菜单-->
+	<select id="findPermissionByPage" resultMap="BaseResultMap">
+		SELECT
+		permis.url,
+		permis.`name`,
+		permis.id,
+		lastPermis.`name` AS lastPermis
+		FROM
+		t_perms AS permis
+		LEFT JOIN t_perms AS lastPermis ON permis.parent_id = lastPermis.id
+		WHERE
+		(1 = 1)
+		<if test="''!=permsName">
+            AND permis.`name` LIKE CONCAT('%',#{permsName},'%')
+        </if>
+	</select>
+
+
+	<select id="findPermissionByName" resultMap="BaseResultMap">
+		SELECT
+		permis.url,
+		permis.`name`,
+		permis.id
+		FROM
+		t_perms AS permis
+		WHERE (1=1)
+		<if test="''!= name">
+			AND permis.url LIKE CONCAT('%',#{name},'%')
+		</if>
+	</select>
+
+
+	<!--查询所有父级菜单绑定下拉框-->
+	<select id="findLastPermissionByType" resultMap="BaseResultMap">
+		SELECT
+		permis.`name`,
+		permis.id
+		FROM
+		t_perms AS permis
+		WHERE permis.type = #{type}
+	</select>
+
+    <!--查询所有父级菜单绑定树形-->
+	<select id="findBasePermission" resultType="BaseResultMap">
+		SELECT
+		permis.id,
+		permis.`name`,
+		permis.parent_id AS lastId
+		FROM
+		t_perms permis
+		WHERE permis.parent_id = '0'
+	</select>
+
+    <!--根据父级id查询菜单-->
+    <select id="findPermissionByFatherId" resultType="BaseResultMap">
+        SELECT
+        permis.id,
+        permis.`name`
+        FROM
+        t_perms permis
+        WHERE permis.parent_id = #{fatherId}
+    </select>
+
+	<!--根据url查询记录-->
+	<select id="findCountByUrl" resultType="java.lang.Integer">
+		SELECT
+		COUNT(*)
+		FROM
+		t_perms permis
+		WHERE permis.url = #{requestUrl}
+	</select>
+
+</mapper>

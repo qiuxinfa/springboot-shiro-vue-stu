@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.OperateRecordMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.qxf.pojo.OperateRecord">
+		<id column="id" property="id" />
+		<result column="request_url" property="requestUrl" />
+		<result column="remote_addr" property="remoteAddr" />
+		<result column="params" property="params" />
+		<result column="method" property="method" />
+		<result column="create_time" property="createTime" />
+		<result column="user_id" property="userId"/>
+		<result column="is_success" property="isSuccess" />
+	</resultMap>
+
+	<select id="findOperateRecordByPage" resultMap="BaseResultMap">
+		SELECT
+		op_r.id,
+		op_r.remote_addr,
+		op_r.params,
+		op_r.method,
+		op_r.create_time,
+		op_r.is_success,
+        IFNULL(u.username, '未知') AS username,
+        IFNULL(
+        p.`name`,
+        op_r.request_url
+        ) AS permName
+		FROM
+		t_operate_record AS op_r
+        LEFT JOIN t_user AS u ON op_r.user_id = u.id
+        LEFT JOIN t_permission AS p ON op_r.request_url = p.url
+		WHERE
+		(1 = 1)
+		<if test="''!=dto.keyword">
+			AND (op_r.requestUrl LIKE CONCAT('%',#{dto.keyword},'%')
+			OR op_r.remoteAddr LIKE CONCAT('%',#{dto.keyword},'%')
+			OR op_r.method LIKE CONCAT('%',#{dto.keyword},'%')
+			OR op_r.flag LIKE CONCAT('%',#{dto.keyword},'%')
+			OR u.nickname LIKE CONCAT('%',#{dto.keyword},'%'))
+		</if>
+		ORDER BY op_r.create_time DESC
+	</select>
+
+	<!--没有改好-->
+	<select id="findAllRequstCount" resultType="BaseResultMap">
+	SELECT
+		rec.method,
+		COUNT(*) AS total,
+		'1' AS type
+	FROM
+		`t_operate_record` AS rec
+	GROUP BY
+		rec.method
+	UNION ALL
+	SELECT
+		u.nickname AS Na,
+		COUNT(*) AS total,
+		'2' AS type
+	FROM
+		sys_operating_record AS rec1
+	INNER JOIN sys_user u ON rec1.uid = u.id
+	GROUP BY
+		u.nickname
+	UNION ALL
+	SELECT
+		'未知' AS Na,
+		COUNT(*) AS total,
+		'2' AS type
+	FROM
+		sys_operating_record AS rec2
+	WHERE
+		rec2.uid IS NULL
+	OR rec2.uid NOT IN (SELECT id FROM sys_user)
+	</select>
+
+</mapper>

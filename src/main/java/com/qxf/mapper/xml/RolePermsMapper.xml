@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.RolePermsMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.qxf.pojo.RolePerms">
+        <id column="id" property="id"></id>
+		<result column="role_id" property="roleId" />
+		<result column="perms_id" property="permsId" />
+	</resultMap>
+	
+	<select id="findRolesPermisByRole" resultMap="BaseResultMap">
+		SELECT
+			rp.perms_id
+		FROM
+			`t_role_perms` rp
+		WHERE
+			rp.role_id = #{roleId}
+	</select>
+	
+	<select id="findCountByRole" resultType="java.lang.Integer">
+		SELECT DISTINCT
+			COUNT(*)
+		FROM
+			t_role_perms rp
+		INNER JOIN t_perms p ON rp.perms_id = p.id
+		WHERE
+			p.url = #{url}
+		AND rp.role_id =  #{roleId}
+	</select>
+
+
+    <!-- 根据父id查询菜单 -->
+    <select id="findRolesPermisByFatherId" resultType="com.qxf.pojo.Perms">
+        <if test="null == parentId">
+            SELECT
+            p.`name`,
+            p.url,
+            p.id
+            FROM
+            `t_perms` AS p
+            WHERE
+            p.parent_id = '0'
+            GROUP BY p.id
+        </if>
+        <if test="null != parentId">
+            SELECT
+            p.`name`,
+            p.url,
+            p.id
+            FROM
+            t_role_perms AS rp
+            RIGHT JOIN t_perms AS p ON rp.perms_id = p.id
+            WHERE
+            p.parent_id = #{parentId}
+            <if test="null != roleId">
+                AND rp.role_id = #{roleId}
+            </if>
+            GROUP BY p.id
+        </if>
+    </select>
+
+</mapper>

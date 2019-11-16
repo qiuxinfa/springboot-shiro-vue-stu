@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.UserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.qxf.pojo.User">
+		<id column="id" property="id" />
+        <result column="photo_url" property="photoUrl"/>
+		<result column="username" property="username" />
+		<result column="email" property="email" />
+		<result column="password" property="password" />
+		<result column="user_type" property="userType" />
+		<result column="enable" property="enable" />
+	</resultMap>
+
+	<select id="findUserByPage" resultType="com.qxf.pojo.User">
+		SELECT
+		u.id,
+		u.username
+		u.email,
+		u.photo_url AS photoUrl,
+		u.enable,
+		u.user_type AS userType
+		FROM
+		t_user AS u
+		WHERE 1=1
+		  <if test="''!= username">
+             AND u.username LIKE CONCAT('%',#{username},'%')
+		  </if>
+	</select>
+
+	<select id="checkUser" resultType="com.qxf.pojo.User">
+        SELECT
+		usr.id,
+		usr.username,
+		usr.enable,
+		usr.password,
+        usr.photo_url AS photoUrl,
+        usr.email
+		FROM
+	     t_user AS usr
+		WHERE
+        usr.password = #{password} AND usr.username = #{username}
+	</select>
+
+
+	<select id="findUserByUsername" parameterType="string" resultType="BaseResultMap">
+		SELECT id,username,password,email,photo_url,user_type,enable from t_user where username=#{username}
+	</select>
+</mapper>
