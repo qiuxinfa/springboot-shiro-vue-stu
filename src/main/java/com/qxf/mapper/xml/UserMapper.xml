@@ -11,6 +11,8 @@
 		<result column="password" property="password" />
 		<result column="user_type" property="userType" />
 		<result column="enable" property="enable" />
+		<result column="create_time" property="createTime" />
+		<result column="last_login_time" property="lastLoginTime" />
 	</resultMap>
 
 	<select id="findUserByPage" resultType="com.qxf.pojo.User">
@@ -20,9 +22,13 @@
 		u.email,
 		u.photo_url AS photoUrl,
 		u.enable,
-		u.user_type AS userType
+		u.user_type AS userType,
+		r.id AS roleId,
+		r.name AS roleName
 		FROM
 		t_user AS u
+		INNER JOIN t_user_role ur ON u.id = ur.user_id
+		INNER JOIN t_role r ON ur.role_id = r.id
 		WHERE 1=1
 		  <if test="''!= username">
              AND u.username LIKE CONCAT('%',#{username},'%')

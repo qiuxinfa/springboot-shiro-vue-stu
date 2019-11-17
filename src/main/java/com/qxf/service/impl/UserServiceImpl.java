@@ -6,9 +6,12 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.qxf.exception.MyException;
 import com.qxf.mapper.UserMapper;
 import com.qxf.pojo.LoginLog;
+import com.qxf.pojo.Perms;
 import com.qxf.pojo.User;
 import com.qxf.pojo.UserRole;
 import com.qxf.service.LoginLogService;
+import com.qxf.service.RolePermsService;
+import com.qxf.service.UserRoleService;
 import com.qxf.service.UserService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
@@ -31,14 +34,14 @@ import java.util.*;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService{
 
-//    @Autowired
-//    private UserRoleService userRoleService;
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Autowired
     private LoginLogService loginLogService;
 
-//    @Autowired
-//    private RolePermissionService rolePermissionService;
+    @Autowired
+    private RolePermsService rolePermissionService;
 
     @Override
     public Object login(User u, HttpSession session, HttpServletRequest request) {
@@ -57,29 +60,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         loginLog.setLoginTotal(loginLogService.findMaxLoginTatalByUserId(user.getId())); // 登录总次数
         loginLogService.insert(loginLog);
 
-//        // 一级 模块
-//        List<RolePermisDto> parentList = rolePermissionService.findRolesPermisByFatherId(null, null);
-//        List<RolePermisDto> sonList = null;
-//        List<RolePermisDto> sonssonList = null;
-//        String rid = userInfoDto.getRoleName().equals("admin") ? null : userInfoDto.getRoleid();
-//        for (int i = 0, j = parentList.size(); i < j; i++) {
-//
-//            List<RolePermisDto> trueChildrenList = new ArrayList<>();
-//
-//            // 二级 页面
-//            sonList = rolePermissionService.findRolesPermisByFatherId(parentList.get(i).getId(), null);
-//            for (int k = 0, l = sonList.size(); k < l; k++) {
-//
-//                // 三级按钮
-//                sonssonList = rolePermissionService.findRolesPermisByFatherId(sonList.get(k).getId(), rid);
-//                // 如果按钮级拥有权限说明页面也有权限
-//                if (!sonssonList.isEmpty() && sonssonList.size() > 0) {
-//                    trueChildrenList.add(sonList.get(k));
-//                }
-//            }
-//            parentList.get(i).setChildren((ArrayList<RolePermisDto>) trueChildrenList);
-//        }
-//        userInfoDto.setRolePermis((ArrayList) parentList);
+        // 一级 模块
+        List<Perms> parentList = rolePermissionService.findRolesPermisByFatherId(null, null);
+        List<Perms> sonList = null;
+        List<Perms> sonssonList = null;
+        String rid = user.getRoleName().equals("admin") ? null : user.getRoleId();
+        for (int i = 0, j = parentList.size(); i < j; i++) {
+
+            List<Perms> trueChildrenList = new ArrayList<>();
+
+            // 二级 页面
+            sonList = rolePermissionService.findRolesPermisByFatherId(parentList.get(i).getId(), null);
+            for (int k = 0, l = sonList.size(); k < l; k++) {
+
+                // 三级按钮
+                sonssonList = rolePermissionService.findRolesPermisByFatherId(sonList.get(k).getId(), rid);
+                // 如果按钮级拥有权限说明页面也有权限
+                if (!sonssonList.isEmpty() && sonssonList.size() > 0) {
+                    trueChildrenList.add(sonList.get(k));
+                }
+            }
+            parentList.get(i).setChildren(trueChildrenList);
+        }
+        user.setUserPerms(parentList);
         return ResultUtil.result(EnumCode.OK.getValue(), "登陆成功", JSON.toJSON(user));
     }
 

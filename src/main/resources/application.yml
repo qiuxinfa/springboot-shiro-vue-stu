@@ -25,7 +25,7 @@ spring:
 
 #mybatis 配置
 mybatis:
-  mapper-locations: classpath:com/shiro/shirodemo/mapper/xml/*.xml
-  type-aliases-package: com.shiro.shirodemo.entity
+  mapper-locations: classpath:com/qxf/mapper/xml/*.xml
+  type-aliases-package: com.qxf.pojo
 
 
