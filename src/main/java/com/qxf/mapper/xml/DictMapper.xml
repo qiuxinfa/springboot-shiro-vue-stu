@@ -5,8 +5,9 @@
 	<!--根据类型绑定字典下拉框-->
 	<select id="findListByDictTypeCode" parameterType="string" resultType="com.qxf.pojo.SysDict">
 		SELECT
-		t.dict_code,
-		t.dict_value
+		t.id,
+		t.dict_code AS dictCode,
+		t.dict_value AS dictValue
 		FROM
 		t_sys_dict t
 		WHERE t.dict_type_code=#{dictTypeCode}
