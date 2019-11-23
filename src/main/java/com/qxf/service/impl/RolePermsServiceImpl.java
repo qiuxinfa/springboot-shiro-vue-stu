@@ -31,10 +31,10 @@ public class RolePermsServiceImpl extends ServiceImpl<RolePermsMapper, RolePerms
     public Object addRolesPermis(RolePerms vo) {
         RolePerms rp = null;
         String roleId = vo.getRoleId();
-        String[] permisIds = vo.getPermsId()==null?new String[0]:vo.getPermsId().split(",");
+        String[] permisIds = vo.getPermsIds()==null?new String[0]:vo.getPermsIds();
 
         Map<String,Object> map = new HashMap<>();
-        map.put("roleId",roleId);
+        map.put("role_id",roleId);
         super.baseMapper.deleteByMap(map);
 
         for (int i = 0,j=permisIds.length; i < j; i++) {
@@ -54,9 +54,9 @@ public class RolePermsServiceImpl extends ServiceImpl<RolePermsMapper, RolePerms
     }
 
     /**
-     * 根据父id\角色id查询角色菜单
+     * 根据父id\用户类型查询角色菜单
      */
-    public List<Perms> findRolesPermisByFatherId(String fatherId, String rid) {
-        return super.baseMapper.findRolesPermisByFatherId(fatherId, rid);
+    public List<Perms> findRolesPermisByFatherId(String fatherId, Integer userType) {
+        return super.baseMapper.findRolesPermisByFatherId(fatherId, userType);
     }
 }

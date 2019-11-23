@@ -19,4 +19,8 @@ public class RolePerms implements Serializable{
     private String roleId;   //角色id
     @TableField("perms_id")
     private String permsId;  //权限id
+    @TableField(exist = false)
+    private String[] permsIds;  //某个角色的全部权限
+
+    private String[] ids;    //
 }

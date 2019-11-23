@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.DictMapper">
+
+	<!--根据类型绑定字典下拉框-->
+	<select id="findListByDictTypeCode" parameterType="string" resultType="com.qxf.pojo.SysDict">
+		SELECT
+		t.dict_code,
+		t.dict_value
+		FROM
+		t_sys_dict t
+		WHERE t.dict_type_code=#{dictTypeCode}
+	</select>
+
+</mapper>

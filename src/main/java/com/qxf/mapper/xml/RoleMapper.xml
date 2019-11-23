@@ -12,12 +12,12 @@
 	<select id="findRoleByPage" resultMap="BaseResultMap">
         SELECT
         role.id,
-        role.`name`,
-		role.role_desc AS roleDesc
+        role.name,
+		role.role_desc
         FROM
-        `t_role` AS role
+        t_role AS role
 		WHERE (1=1)
-		<if test="''!=roleName">
+		<if test=" roleName != null and ''!=roleName">
 			AND role.`name` LIKE CONCAT('%',#{roleName},'%')
 		</if>
 	</select>

@@ -44,7 +44,8 @@ public class PermsController extends BaseController{
      * @desc: 删除菜单
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public Object delPermis(String[] ids) {
+    public Object delPermis(Perms perms) {
+        String[] ids = perms.getIds();
         if (null == ids || ids.length == 0) {
             return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
         }
@@ -52,7 +53,7 @@ public class PermsController extends BaseController{
     }
 
     /**
-     * @desc: 查询父级菜单为0的所有菜单
+     * @desc: 查询父级菜单为1的所有菜单
      */
     @RequestMapping(value = "/findLastPermissionByType" ,method = RequestMethod.GET)
     public Object findAllBasePermission(String type) {

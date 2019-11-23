@@ -60,12 +60,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         loginLog.setLoginTotal(loginLogService.findMaxLoginTatalByUserId(user.getId())); // 登录总次数
         loginLogService.insert(loginLog);
 
-        // 一级 模块
-        List<Perms> parentList = rolePermissionService.findRolesPermisByFatherId(null, null);
+        // 根据用户类型查询  一级菜单
+        List<Perms> parentList = rolePermissionService.findRolesPermisByFatherId(null, user.getUserType());
         List<Perms> sonList = null;
         List<Perms> sonssonList = null;
-        //String rid = user.getRoleName().equals("admin") ? null : user.getRoleId();
-        String rid = null;
         for (int i = 0, j = parentList.size(); i < j; i++) {
 
             // 二级 页面
@@ -73,7 +71,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
             for (int k = 0, l = sonList.size(); k < l; k++) {
 
                 // 三级 按钮
-                sonssonList = rolePermissionService.findRolesPermisByFatherId(sonList.get(k).getId(), rid);
+                sonssonList = rolePermissionService.findRolesPermisByFatherId(sonList.get(k).getId(), null);
                 sonList.get(k).setChildren(sonssonList);
                 // 如果按钮级拥有权限说明页面也有权限
 //                if (!sonssonList.isEmpty() && sonssonList.size() > 0) {
@@ -83,6 +81,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
             parentList.get(i).setChildren(sonList);
         }
         user.setUserPerms(parentList);
+        user.setLastLoginTime(new Date());
+        super.updateById(user);
         return ResultUtil.result(EnumCode.OK.getValue(), "登陆成功", JSON.toJSON(user));
     }
 

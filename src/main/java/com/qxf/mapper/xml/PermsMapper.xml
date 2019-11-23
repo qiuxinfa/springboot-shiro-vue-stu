@@ -18,6 +18,7 @@
 		permis.url,
 		permis.`name`,
 		permis.id,
+		permis.type,
 		lastPermis.`name` AS lastPermis
 		FROM
 		t_perms AS permis
@@ -59,7 +60,7 @@
 		SELECT
 		permis.id,
 		permis.`name`,
-		permis.parent_id AS lastId
+		permis.parent_id
 		FROM
 		t_perms permis
 		WHERE permis.parent_id = '0'

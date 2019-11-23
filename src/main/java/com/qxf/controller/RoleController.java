@@ -49,7 +49,8 @@ public class RoleController {
      * @desc: 删除角色
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public Object delRoles(String[] ids) {
+    public Object delRoles(Role role) {
+        String[] ids = role.getIds();
         if (null == ids || ids.length == 0) {
             return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
         }
@@ -76,7 +77,7 @@ public class RoleController {
      * 添加角色权限
      */
     @RequestMapping(value = "/perms",method = RequestMethod.POST)
-    public Object addRolesPermis(RolePerms vo,BindingResult bindingResult) {
+    public Object addRolesPermis(RolePerms vo, BindingResult bindingResult) {
         return rolePermissionService.addRolesPermis(vo);
     }
 

@@ -18,4 +18,6 @@ public class Role implements Serializable{
     private String name;       //角色名称
     @TableField("role_desc")
     private String roleDesc;   //角色描述
+    @TableField(exist = false)
+    private String[] ids;      //要删除的角色id
 }

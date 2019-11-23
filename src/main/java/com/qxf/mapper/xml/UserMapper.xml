@@ -38,20 +38,19 @@
 	</select>
 
 	<select id="checkUser" resultType="com.qxf.pojo.User">
-        SELECT
+		SELECT
 		usr.id,
 		usr.username,
 		usr.enable,
 		usr.password,
-        usr.photo_url AS photoUrl,
-        usr.email,
-        usr.user_type AS userType
+		usr.photo_url AS photoUrl,
+		usr.email,
+		usr.user_type AS userType
 		FROM
-	     t_user AS usr
+		t_user AS usr
 		WHERE
-        usr.password = #{password} AND usr.username = #{username}
+		usr.password = #{password} AND usr.username = #{username}
 	</select>
-
 
 	<select id="findUserByUsername" parameterType="string" resultMap="BaseResultMap">
 		SELECT id,username,password,email,photo_url,user_type,enable from t_user where username=#{username}

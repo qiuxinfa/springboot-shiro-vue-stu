@@ -44,12 +44,14 @@ public class PermsServiceImpl extends ServiceImpl<PermsMapper, Perms> implements
     }
 
     /**
-     * @desc: 删除菜单
+     * @desc: 删除菜单  应该同时删掉t_role_perms表的相关记录
      */
     public Object delPermis(String[] ids) {
 
         for (String id : ids) {
            super.baseMapper.deleteById(id);
+
+
         }
         return ResultUtil.result(EnumCode.OK.getValue(), "删除成功");
     }
@@ -73,20 +75,20 @@ public class PermsServiceImpl extends ServiceImpl<PermsMapper, Perms> implements
      */
     public List<Perms> findBasePermission() {
         List<Perms> list = super.baseMapper.findBasePermission();
-//        if (null != list && !list.isEmpty()) {
-//            for (int i = 0,j = list.size();i< j;i++) {
-//               List<Perms> children = super.baseMapper.findPermissionByFatherId(list.get(i).getId());
-//               if (null != children && !children.isEmpty()) {
-//                   list.get(i).setChildren((ArrayList<PermisDto>) children);
-//                   for (int i1 = 0, j1 = children.size();i1 < j1; i1++) {
-//                       List<PermisDto> children1 = super.baseMapper.findPermissionByFatherId(children.get(i1).getId());
-//                       if (null != children1 && !children1.isEmpty()) {
-//                           children.get(i1).setChildren((ArrayList<PermisDto>) children1);
-//                       }
-//                   }
-//               }
-//            }
-//        }
+        if (null != list && !list.isEmpty()) {
+            for (int i = 0,j = list.size();i< j;i++) {
+               List<Perms> children = super.baseMapper.findPermissionByFatherId(list.get(i).getId());
+               if (null != children && !children.isEmpty()) {
+                   list.get(i).setChildren(children);
+                   for (int i1 = 0, j1 = children.size();i1 < j1; i1++) {
+                       List<Perms> children1 = super.baseMapper.findPermissionByFatherId(children.get(i1).getId());
+                       if (null != children1 && !children1.isEmpty()) {
+                           children.get(i1).setChildren(children1);
+                       }
+                   }
+               }
+            }
+        }
         return list;
     }
 

@@ -24,4 +24,8 @@ public class Perms implements Serializable{
     private Integer sort;     //权限排序号
     @TableField(exist = false)
     private List<Perms> children; //子权限
+    @TableField(exist = false)
+    private String lastPermis; //上级菜单名称
+    @TableField(exist = false)
+    private String[] ids;     //要删除的权限id
 }
