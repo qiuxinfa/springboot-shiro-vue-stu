@@ -28,4 +28,8 @@ public class OperateRecord implements Serializable{
     private String userId;          //用户id
     @TableField("is_success")
     private Integer isSuccess;      //请求是否成功
+    @TableField(exist = false)
+    private String permName;        //请求url
+    @TableField(exist = false)
+    private String username;        //用户名
 }

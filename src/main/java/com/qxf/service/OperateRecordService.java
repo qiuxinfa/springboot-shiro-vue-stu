@@ -12,7 +12,7 @@ public interface OperateRecordService extends IService<OperateRecord> {
     /**
      * 查询操作记录
      */
-    List<OperateRecord> findOperatingRecordByPage(Page<OperateRecord> page, OperateRecord operateRecord);
+    List<OperateRecord> findOperatingRecordByPage(Page<OperateRecord> page, String searchKeyWord);
 
     /**
      * 访问统计

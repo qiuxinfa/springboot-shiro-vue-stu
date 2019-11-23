@@ -22,12 +22,23 @@
 		op_r.method,
 		op_r.create_time,
 		op_r.is_success,
-        IFNULL(u.username, '未知') AS username
+		IFNULL(u.username, '未知') AS username,
+		IFNULL(
+		p.`name`,
+		op_r.request_url
+		) AS permName
 		FROM
 		t_operate_record AS op_r
-        LEFT JOIN t_user AS u ON op_r.user_id = u.id
+		LEFT JOIN t_user AS u ON op_r.user_id = u.id
+		LEFT JOIN t_perms AS p ON op_r.request_url = p.url
 		WHERE
 		(1 = 1)
+		<if test="searchKeyWord != null and ''!=searchKeyWord">
+			AND (op_r.request_url LIKE CONCAT('%',#{searchKeyWord},'%')
+			OR op_r.remote_addr LIKE CONCAT('%',#{searchKeyWord},'%')
+			OR op_r.method LIKE CONCAT('%',#{searchKeyWord},'%')
+			OR u.username LIKE CONCAT('%',#{searchKeyWord},'%'))
+		</if>
 		ORDER BY op_r.create_time DESC
 	</select>
 

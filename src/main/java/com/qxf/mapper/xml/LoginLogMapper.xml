@@ -23,17 +23,17 @@
 	LIMIT 1
 	</select>
 
-    <select id="findUserLoginLogByPage" resultMap="BaseResultMap">
+    <select id="findUserLoginLogByPage" parameterType="string" resultType="com.qxf.pojo.LoginLog">
         SELECT
-        login_log.login_time,
-        login_log.login_ip,
+        login_log.login_time AS loginTime,
+        login_log.login_ip AS loginIp,
         u.username
         FROM
         t_login_log login_log
         INNER JOIN t_user u ON login_log.user_id = u.id
         WHERE
         (1 = 1)
-        <if test="''!=searchKeyWord">
+        <if test="searchKeyWord != null and ''!=searchKeyWord">
             AND (u.username LIKE CONCAT('%',#{searchKeyWord},'%')
             OR login_log.login_ip LIKE CONCAT('%',#{searchKeyWord},'%'))
         </if>

@@ -24,4 +24,6 @@ public class LoginLog implements Serializable{
     private String loginIp;       //登录IP
     @TableField("login_total")
     private Integer loginTotal;  //登录次数
+    @TableField(exist = false)
+    private String username;     //用户名
 }

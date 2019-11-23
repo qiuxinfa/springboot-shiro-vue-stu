@@ -18,8 +18,8 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
     /**
      * 查询操作记录
      */
-    public List<OperateRecord> findOperatingRecordByPage(Page<OperateRecord> page, OperateRecord dto){
-        return super.baseMapper.findOperateRecordByPage(page,dto);
+    public List<OperateRecord> findOperatingRecordByPage(Page<OperateRecord> page, String searchKeyWord){
+        return super.baseMapper.findOperateRecordByPage(page,searchKeyWord);
     }
 
     /**
