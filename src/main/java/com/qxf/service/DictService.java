@@ -12,7 +12,9 @@ import java.util.List;
  * @Description: com.qxf.service
  */
 public interface DictService extends IService<SysDict>{
-    List<SysDict> findDictByPage(Page<SysDict> page, String dictValue);
+    List<SysDict> findDictByPage(Page<SysDict> page, SysDict dict);
 
     List<SysDict> findListByDictTypeCode(String dictTypeCode);
+
+    Object addDict(SysDict dict);
 }

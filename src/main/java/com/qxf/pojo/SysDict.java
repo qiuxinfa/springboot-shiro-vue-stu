@@ -24,5 +24,5 @@ public class SysDict implements Serializable{
     @TableField("dict_desc")
     private String dictDesc;      //字典描述
     @TableField("dict_order")
-    private String dictOrder;     //字典拍序号
+    private Integer dictOrder;     //字典拍序号
 }
