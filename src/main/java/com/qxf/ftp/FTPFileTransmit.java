@@ -21,9 +21,9 @@ public class FTPFileTransmit {
 
     public FTPFileTransmit() {
 
-        this.ftpName = "ftpName";
-        this.ftpPassword = "ftpPassword";
-        this.ftpServerIP = "127.0.0.1";
+        this.ftpName = "Administrator";
+        this.ftpPassword = "qiuxinfa";
+        this.ftpServerIP = "192.168.43.152";
         this.ftpPort = 21;
 
     }

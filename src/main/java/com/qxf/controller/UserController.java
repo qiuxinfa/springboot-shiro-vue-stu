@@ -6,13 +6,11 @@ import com.qxf.pojo.User;
 import com.qxf.service.UserService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.jws.soap.SOAPBinding;
@@ -29,7 +27,7 @@ import java.util.Map;
  * @Description: com.qxf.controller
  */
 @RestController
-@RequestMapping(value = "UserApi/v1")
+@RequestMapping(value = "user")
 public class UserController extends BaseController {
 
     @Autowired
@@ -45,7 +43,7 @@ public class UserController extends BaseController {
     public String uploadLogo(HttpServletRequest request) {
         uploadImg = new HashMap<String, String>();
         uploadImg = UploadUtil.uploadImage(request, "vue_shiro_photo/userImg");
-        return uploadImg.get("userImg");
+        return uploadImg.get("pic");
     }
 
     @RequestMapping("/upload")
@@ -85,7 +83,7 @@ public class UserController extends BaseController {
     /**
      * @desc: 查询用户
      */
-    @RequestMapping(value = "/findUserByPage",method = RequestMethod.GET)
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Object findUserByPage(Integer startPage,Integer pageSize,User user) {
         Page<User> page = new Page<User>(startPage,pageSize);
         List<User> list = userService.findUserByPage(page,user);
@@ -95,7 +93,7 @@ public class UserController extends BaseController {
     /**
      * @desc: 新增用户
      */
-    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Object addUser(@Valid User userVo, BindingResult bindingResult) {
         return userService.addUser(userVo);
     }
@@ -103,8 +101,9 @@ public class UserController extends BaseController {
     /**
      * @desc: 批量删除用户
      */
-    @RequestMapping(value = "/delUsers",method = RequestMethod.POST)
-    public Object delUsers(String[] ids) {
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public Object delUsers(User user) {
+        String[] ids = user.getIds();
         if (null == ids || ids.length == 0) {
             return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
         }
@@ -114,7 +113,7 @@ public class UserController extends BaseController {
     /**
      * 修改用户状态
      */
-    @RequestMapping(value = "/editUserStatus", method = RequestMethod.POST)
+    @RequestMapping(value = "/status", method = RequestMethod.POST)
     public Object editUserStatus(User dto) {
         if (StringUtils.isEmpty(dto.getId()) || null == dto.getEnable()) {
             return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
@@ -125,7 +124,7 @@ public class UserController extends BaseController {
     /**
      * 用户修改用户个人信息
      */
-    @RequestMapping(value = "/editUserInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public Object editUserInfo(User vo) {
         return userService.editUserInfo(vo);
     }

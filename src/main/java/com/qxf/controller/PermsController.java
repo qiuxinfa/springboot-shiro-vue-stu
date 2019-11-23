@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "PermisApi/v1")
+@RequestMapping(value = "perms")
 public class PermsController extends BaseController{
 
     @Autowired
@@ -24,7 +24,7 @@ public class PermsController extends BaseController{
     /**
      * @desc: 查询菜单
      */
-    @RequestMapping(value = "/findPermissionByPage" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/list" ,method = RequestMethod.GET)
     public Object findPermissionByPage(Integer startPage,Integer pageSize,String permsName) {
 
         Page<Perms> page = new Page<Perms>(startPage,pageSize);
@@ -35,7 +35,7 @@ public class PermsController extends BaseController{
     /**
      * @desc: 新增菜单
      */
-    @RequestMapping(value = "/addPermissions" ,method = RequestMethod.POST)
+    @RequestMapping(value = "/add" ,method = RequestMethod.POST)
     public Object addPermissions(@Valid Perms vo, BindingResult bindingResult) {
       return permissionService.addPermissions(vo);
     }
@@ -43,7 +43,7 @@ public class PermsController extends BaseController{
     /**
      * @desc: 删除菜单
      */
-    @RequestMapping(value = "/delPermis",method = RequestMethod.POST)
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Object delPermis(String[] ids) {
         if (null == ids || ids.length == 0) {
             return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());

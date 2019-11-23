@@ -64,23 +64,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         List<Perms> parentList = rolePermissionService.findRolesPermisByFatherId(null, null);
         List<Perms> sonList = null;
         List<Perms> sonssonList = null;
-        String rid = user.getRoleName().equals("admin") ? null : user.getRoleId();
+        //String rid = user.getRoleName().equals("admin") ? null : user.getRoleId();
+        String rid = null;
         for (int i = 0, j = parentList.size(); i < j; i++) {
-
-            List<Perms> trueChildrenList = new ArrayList<>();
 
             // 二级 页面
             sonList = rolePermissionService.findRolesPermisByFatherId(parentList.get(i).getId(), null);
             for (int k = 0, l = sonList.size(); k < l; k++) {
 
-                // 三级按钮
+                // 三级 按钮
                 sonssonList = rolePermissionService.findRolesPermisByFatherId(sonList.get(k).getId(), rid);
+                sonList.get(k).setChildren(sonssonList);
                 // 如果按钮级拥有权限说明页面也有权限
-                if (!sonssonList.isEmpty() && sonssonList.size() > 0) {
-                    trueChildrenList.add(sonList.get(k));
-                }
+//                if (!sonssonList.isEmpty() && sonssonList.size() > 0) {
+//                    trueChildrenList.add(sonList.get(k));
+//                }
             }
-            parentList.get(i).setChildren(trueChildrenList);
+            parentList.get(i).setChildren(sonList);
         }
         user.setUserPerms(parentList);
         return ResultUtil.result(EnumCode.OK.getValue(), "登陆成功", JSON.toJSON(user));
@@ -102,8 +102,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         u.setPhotoUrl(user.getPhotoUrl());
         //用户类型：1管理，2老师，3学生
         u.setUserType(user.getUserType());
-        u.setEnable(1);
-        super.baseMapper.insert(user);
+        u.setEnable(user.getEnable());
+        u.setCreateTime(new Date());
+        super.baseMapper.insert(u);
+        //插入角色
+        UserRole userRole = new UserRole();
+        userRole.setRoleId(u.getUserType().toString());
+        userRole.setUserId(u.getId());
+        userRoleService.insert(userRole);
         return ResultUtil.result(EnumCode.OK.getValue(), "新增成功");
     }
 

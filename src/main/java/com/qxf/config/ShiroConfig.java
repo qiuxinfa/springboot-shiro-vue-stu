@@ -40,16 +40,16 @@ public class ShiroConfig {
         // 必须设置 SecurityManager
         sffb.setSecurityManager(securityManager);
         // 登录页面
-        sffb.setLoginUrl("/LoginApi/v1/login");
+        sffb.setLoginUrl("/user/login");
         // 登录成功后要跳转的链接
         // 未授权界面;
         sffb.setUnauthorizedUrl("/login");
         // 拦截器
         Map<String,String> filterMap = new LinkedHashMap<>();
         // 可以匿名访问
-        filterMap.put("/LoginApi/v1/login", "anon");
-        filterMap.put("/LoginApi/v1/logout", "anon");
-        filterMap.put("/UserApi/v1/uploadHander", "anon");
+        filterMap.put("/user/login", "anon");
+        filterMap.put("/user/logout", "anon");
+        filterMap.put("/user/uploadHander", "anon");
         // 需要认证才可以访问
         filterMap.put("/*", "authc");
         filterMap.put("/**", "authc");

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping(value = "LoginApi/v1")
+@RequestMapping(value = "user")
 public class LoginController {
 
     @Autowired
@@ -26,7 +26,10 @@ public class LoginController {
     private LoginLogService loginLogService;
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public Object login(User user, HttpSession session, HttpServletRequest request) {
+    public Object login(String name,String pass, HttpSession session, HttpServletRequest request) {
+        User user = new User();
+        user.setUsername(name);
+        user.setPassword(pass);
         return userService.login(user, session, request);
     }
 

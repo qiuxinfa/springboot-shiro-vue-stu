@@ -111,7 +111,7 @@ public class HttpAspect extends BaseController {
         or.setRequestUrl(requestUrl);
         or.setRemoteAddr(remoteAddr);
         or.setMethod(method);
-        or.setParams(args);
+       // or.setParams(args);
         or.setCreateTime(new Date());
         or.setUserId(super.getUserId());
 
@@ -125,7 +125,7 @@ public class HttpAspect extends BaseController {
             }
 
             Integer row = rolePermissionService.findCountByRole(roleId, request.getRequestURI().replaceAll(request.getContextPath(),""));
-            if (row == 0 && !super.getRoleName().equals("admin")) {
+            if (row == 0 && ! "1".equals(super.getRoleId())) {
                 or.setIsSuccess(0);
                 operatingRecordService.insert(or);
                 throw new MyException(ResultUtil.result(EnumCode.FORBIDDEN.getValue(), EnumCode.FORBIDDEN.getText()));

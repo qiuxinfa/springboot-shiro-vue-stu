@@ -1,6 +1,11 @@
 package com.qxf.exception;
 
 import com.alibaba.fastjson.JSONArray;
+import com.qxf.controller.BaseController;
+import com.qxf.pojo.OperateRecord;
+import com.qxf.service.OperateRecordService;
+import com.qxf.utils.EnumCode;
+import com.qxf.utils.ResultUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +25,10 @@ import java.util.Date;
  * @Description: 统一异常处理
  */
 @ControllerAdvice
-public class ExceptionHandle extends BaseApi {
+public class ExceptionHandle extends BaseController {
 
     @Autowired
-    private OperatingRecordService operatingRecordService;
+    private OperateRecordService operatingRecordService;
 
     private final  static Logger log = LoggerFactory.getLogger(ExceptionHandle.class);
 
@@ -37,13 +42,13 @@ public class ExceptionHandle extends BaseApi {
         String remoteAddr = request.getRemoteAddr();
         String method = request.getMethod();
 
-        OperatingRecord or = new OperatingRecord();
+        OperateRecord or = new OperateRecord();
         or.setRequestUrl(request.getRequestURI());
         or.setRemoteAddr(remoteAddr);
         or.setMethod(method);
         or.setCreateTime(new Date());
-        or.setUid(super.getUserId());
-        or.setFlag("请求出错");
+        or.setUserId(super.getUserId());
+        or.setIsSuccess(0);
         operatingRecordService.insert(or);
 
 

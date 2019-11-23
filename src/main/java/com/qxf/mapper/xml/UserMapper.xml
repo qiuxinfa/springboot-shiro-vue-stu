@@ -18,11 +18,13 @@
 	<select id="findUserByPage" resultType="com.qxf.pojo.User">
 		SELECT
 		u.id,
-		u.username
+		u.username,
 		u.email,
 		u.photo_url AS photoUrl,
 		u.enable,
 		u.user_type AS userType,
+		u.create_time AS createTime,
+		u.last_login_time AS lastLoginTime,
 		r.id AS roleId,
 		r.name AS roleName
 		FROM
@@ -30,7 +32,7 @@
 		INNER JOIN t_user_role ur ON u.id = ur.user_id
 		INNER JOIN t_role r ON ur.role_id = r.id
 		WHERE 1=1
-		  <if test="''!= username">
+		  <if test="username != null and ''!= username">
              AND u.username LIKE CONCAT('%',#{username},'%')
 		  </if>
 	</select>
@@ -42,7 +44,8 @@
 		usr.enable,
 		usr.password,
         usr.photo_url AS photoUrl,
-        usr.email
+        usr.email,
+        usr.user_type AS userType
 		FROM
 	     t_user AS usr
 		WHERE
@@ -50,7 +53,7 @@
 	</select>
 
 
-	<select id="findUserByUsername" parameterType="string" resultType="BaseResultMap">
+	<select id="findUserByUsername" parameterType="string" resultMap="BaseResultMap">
 		SELECT id,username,password,email,photo_url,user_type,enable from t_user where username=#{username}
 	</select>
 </mapper>

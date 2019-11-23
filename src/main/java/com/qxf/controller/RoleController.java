@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "RoleApi/v1")
+@RequestMapping(value = "role")
 public class RoleController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class RoleController {
     /**
      * @desc: 查询角色
      */
-    @RequestMapping(value = "/findRoleByPage" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/list" ,method = RequestMethod.GET)
     public Object findRoleByPage(Integer startPage,Integer pageSize,String roleName) {
 
         Page<Role> page = new Page<Role>(startPage,pageSize);
@@ -40,7 +40,7 @@ public class RoleController {
     /**
      * @desc: 新增角色
      */
-    @RequestMapping(value = "/addRoles" ,method = RequestMethod.POST)
+    @RequestMapping(value = "/add" ,method = RequestMethod.POST)
     public Object addRoles(@Valid Role vo, BindingResult bindingResult) {
         return roleService.addRoles(vo);
     }
@@ -48,7 +48,7 @@ public class RoleController {
     /**
      * @desc: 删除角色
      */
-    @RequestMapping(value = "/delRoles",method = RequestMethod.POST)
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Object delRoles(String[] ids) {
         if (null == ids || ids.length == 0) {
             return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
@@ -75,7 +75,7 @@ public class RoleController {
     /**
      * 添加角色权限
      */
-    @RequestMapping(value = "/addRolesPermis",method = RequestMethod.POST)
+    @RequestMapping(value = "/perms",method = RequestMethod.POST)
     public Object addRolesPermis(RolePerms vo,BindingResult bindingResult) {
         return rolePermissionService.addRolesPermis(vo);
     }

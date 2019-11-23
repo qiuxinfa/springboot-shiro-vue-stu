@@ -27,7 +27,7 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
      */
     public Object findUserReqTotal() {
 
-        List<OperateRecord> reqList = super.baseMapper.findAllRequstCount();
+        Integer reqList = super.baseMapper.findAllRequstCount();
 //        List<RequstOprDto> reqData1 = new ArrayList<>();
 //        List<RequstOprDto> reqData2 = new ArrayList<>();
 //        String[] arrNa = new String[reqList.size()];

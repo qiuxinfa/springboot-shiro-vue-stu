@@ -56,6 +56,7 @@ public class AuthRealm extends AuthorizingRealm {
         }else{
             userInfoDto = list.get(0);
             //登录成功
+            userInfoDto.setLastLoginTime(new Date());
         }
         log.info("======================= 登陆成功 ======================");
         return new SimpleAuthenticationInfo(userInfoDto, userInfoDto.getPassword(), getName());
