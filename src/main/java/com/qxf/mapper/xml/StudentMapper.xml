@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qxf.mapper.ClazzMapper">
+<mapper namespace="com.qxf.mapper.StudentMapper">
 
 	<!--查询列表-->
-	<select id="getListByPage" parameterType="string" resultType="com.qxf.pojo.Clazz">
+	<select id="getListByPage" parameterType="string" resultType="com.qxf.pojo.Student">
 		SELECT
 		t.id,
 		t.name,
+		t.age,
+		t.sex,
+		t.phone,
+		t.email,
+		t.student_number AS studentNumber,
+		t1.name AS clazzName,
 		t2.name AS majorName,
 		t3.name AS instituteName
 		FROM
-		t_clazz t
+		t_student t
+		LEFT JOIN t_clazz t1 ON  t1.id = t.clazz_id
 		LEFT JOIN t_major t2 ON t2.id = t.major_id
-		LEFT JOIN t_institute t3 ON t3.id = t2.institute_id
+		LEFT JOIN t_institute t3 ON t3.id = t.institute_id
 		WHERE 1=1
 		<if test=" name != null and name != '' ">
 			AND t.name LIKE CONCAT('%',#{name},'%')
@@ -20,11 +27,7 @@
 
 	</select>
 
-	<select id="getAllClazz" parameterType="string" resultType="com.qxf.pojo.Clazz">
-		SELECT t.id,t.name FROM t_clazz t
-		  WHERE 1=1
-		    <if test="majorId!=null and majorId!=''">
-				AND t.major_id = #{majorId}
-			</if>
+	<select id="getStudentCount" resultType="int">
+		SELECT COUNT(*) FROM t_student
 	</select>
 </mapper>

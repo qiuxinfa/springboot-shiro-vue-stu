@@ -30,4 +30,10 @@ public class Student implements Serializable{
     private String majorId;          //专业id
     @TableField("institute_id")
     private String instituteId;      //学院id
+    @TableField(exist = false)
+    private String clazzName;        //班级名称
+    @TableField(exist = false)
+    private String majorName;        //专业名称
+    @TableField(exist = false)
+    private String instituteName;    //学院名称
 }

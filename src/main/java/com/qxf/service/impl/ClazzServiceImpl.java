@@ -39,4 +39,9 @@ public class ClazzServiceImpl extends ServiceImpl<ClazzMapper,Clazz> implements 
         super.baseMapper.insert(clazz);
         return ResultUtil.result(EnumCode.OK.getValue(),"新增成功");
     }
+
+    @Override
+    public List<Clazz> getAllClazz(String majorId) {
+        return super.baseMapper.getAllClazz(majorId);
+    }
 }

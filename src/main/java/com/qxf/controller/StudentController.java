@@ -1,8 +1,8 @@
 package com.qxf.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.qxf.pojo.Clazz;
-import com.qxf.service.ClazzService;
+import com.qxf.pojo.Student;
+import com.qxf.service.StudentService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +19,20 @@ import java.util.List;
  * @Description: com.qxf.controller
  */
 @RestController
-@RequestMapping("clazz")
-public class ClazzController {
+@RequestMapping("student")
+public class StudentController {
     @Autowired
-    private ClazzService clazzService;
+    private StudentService studentService;
 
     @GetMapping("/list")
     public Object getListByPage(Integer startPage,Integer pageSize,String name){
-        Page<Clazz> page = new Page<>(startPage,pageSize);
-        List<Clazz> list = clazzService.getListByPage(page,name);
+        Page<Student> page = new Page<>(startPage,pageSize);
+        List<Student> list = studentService.getListByPage(page,name);
         return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list,page.getTotal());
     }
 
     @PostMapping("/add")
-    public Object addClazz(Clazz clazz){
-        return clazzService.addClazz(clazz);
-    }
-
-    @GetMapping("/findAllClazz")
-    public Object getAllClazz(String majorId){
-        List<Clazz> list = clazzService.getAllClazz(majorId);
-        return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list);
+    public Object addStudent(Student student){
+        return studentService.addStudent(student);
     }
 }
