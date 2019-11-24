@@ -13,4 +13,8 @@ import java.util.List;
  */
 public interface InstituteService extends IService<Institute>{
     List<Institute> getInstituteByPage(Page<Institute> page, String name);
+
+    public Object addInstitute(Institute institute);
+
+    public List<Institute> findAllInstitute();
 }

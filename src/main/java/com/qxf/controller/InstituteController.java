@@ -7,6 +7,7 @@ import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +30,18 @@ public class InstituteController {
         Page<Institute> page = new Page<>(startPage,pageSize);
         List<Institute> list = instituteService.getInstituteByPage(page,name);
         return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list,page.getTotal());
+    }
+
+    //添加学院
+    @PostMapping("/add")
+    public Object addInstitute(Institute institute){
+        return instituteService.addInstitute(institute);
+    }
+
+    //学院下拉列表
+    @GetMapping("/findAllInstitute")
+    public Object findAllInstitute(){
+        List<Institute> list = instituteService.findAllInstitute();
+        return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list);
     }
 }

@@ -14,4 +14,6 @@ import java.util.List;
  */
 public interface InstituteMapper extends BaseMapper<Institute>{
     List<Institute> getInstituteByPage(Page<Institute> page,@Param("name") String name);
+
+    public List<Institute> findAllInstitute();
 }

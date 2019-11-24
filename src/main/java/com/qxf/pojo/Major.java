@@ -20,4 +20,6 @@ public class Major implements Serializable{
     private String majorNumber;   //专业编码
     @TableField("institute_id")
     private String instituteId;   //学院id
+    @TableField(exist = false)
+    private String instituteName; //所属学院名称
 }
