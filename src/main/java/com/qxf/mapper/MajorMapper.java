@@ -15,5 +15,5 @@ import java.util.List;
 public interface MajorMapper extends BaseMapper<Major>{
     public List<Major> getListByPage(Page<Major> page, @Param("name") String name);
 
-    public List<Major> findAllMajor();
+    public List<Major> findAllMajor(@Param("instituteId") String instituteId);
 }

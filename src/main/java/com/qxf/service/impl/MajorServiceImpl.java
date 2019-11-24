@@ -41,7 +41,7 @@ public class MajorServiceImpl extends ServiceImpl<MajorMapper,Major> implements 
     }
 
     @Override
-    public List<Major> findAllMajor() {
-        return super.baseMapper.findAllMajor();
+    public List<Major> findAllMajor(String instituteId) {
+        return super.baseMapper.findAllMajor(instituteId);
     }
 }

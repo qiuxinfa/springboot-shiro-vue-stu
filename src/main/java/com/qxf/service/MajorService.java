@@ -16,5 +16,5 @@ public interface MajorService extends IService<Major>{
 
     public Object addMajor(Major major);
 
-    public List<Major> findAllMajor();
+    public List<Major> findAllMajor(String instituteId);
 }

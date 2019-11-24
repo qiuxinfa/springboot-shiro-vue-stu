@@ -15,8 +15,6 @@ import java.io.Serializable;
 @TableName("t_clazz")
 public class Clazz implements Serializable{
     private String id;
-    @TableField("clazz_number")
-    private String clazzNumber;      //班级编码
     private String name;             //班级名
     @TableField("major_id")
     private String majorId;          //班级所属专业id

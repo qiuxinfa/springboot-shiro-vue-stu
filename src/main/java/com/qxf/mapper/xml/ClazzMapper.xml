@@ -7,7 +7,6 @@
 		SELECT
 		t.id,
 		t.name,
-		t.clazz_number AS clazzNumber,
 		t2.name AS majorName,
 		t3.name AS instituteName
 		FROM
