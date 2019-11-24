@@ -14,5 +14,5 @@ import java.util.List;
 public interface StudentService extends IService<Student>{
     List<Student> getListByPage(Page<Student> page, String name);
     Object addStudent(Student student);
-    Integer getStudentCount();
+    Integer getStudentCount(String majorId);
 }

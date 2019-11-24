@@ -27,7 +27,7 @@
 
 	</select>
 
-	<select id="getStudentCount" resultType="int">
-		SELECT COUNT(*) FROM t_student
+	<select id="getStudentCount" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM t_student WHERE major_id = #{majorId}
 	</select>
 </mapper>

@@ -48,7 +48,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper,Student> imple
         Integer year = calendar.get(Calendar.YEAR);
         String instituteNumber = instituteService.selectById(student.getInstituteId().trim()).getInstituteNumber();
         String majorNumber = majorService.selectById(student.getMajorId().trim()).getMajorNumber();
-        Integer total = this.getStudentCount();  //学生总数
+        Integer total = this.getStudentCount(student.getMajorId().trim());  //本专业学生总数
         String number = "1000";   //随机数字起始
         if(total!=null){
             number = ""+(1000+total);
@@ -93,8 +93,8 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper,Student> imple
     }
 
     @Override
-    public Integer getStudentCount() {
-        return super.baseMapper.getStudentCount();
+    public Integer getStudentCount(String majorId) {
+        return super.baseMapper.getStudentCount(majorId);
     }
 
 }

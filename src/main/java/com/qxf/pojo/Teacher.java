@@ -18,10 +18,11 @@ public class Teacher implements Serializable{
     private String name;             //老师姓名
     private Integer age;             //年龄
     private Integer sex;             //年龄
-    private String title;            //职称
+    private String title;            //职称id
     private String email;            //邮箱
+    private String phone;            //电话
     @TableField("photo_url")
     private String photoUrl;        //头像地址
-    @TableField("teacher_number")
-    private String teacherNumber;   //老师编码
+    @TableField(exist = false)
+    private String titleName;       //职称名称
 }

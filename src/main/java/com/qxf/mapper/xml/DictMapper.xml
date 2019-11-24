@@ -29,6 +29,7 @@
 		FROM
 		t_sys_dict t
 		WHERE t.dict_type_code=#{dictTypeCode}
+		ORDER BY t.dict_order
 	</select>
 
 </mapper>

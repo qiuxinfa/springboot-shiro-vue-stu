@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.TeacherMapper">
+
+	<!--查询列表-->
+	<select id="getListByPage" parameterType="string" resultType="com.qxf.pojo.Teacher">
+		SELECT
+		t.id,
+		t.name,
+		t.age,
+		t.sex,
+		t.phone,
+		t.email,
+		t.title,
+		(select d.dict_value from t_sys_dict d WHERE d.dict_type_code='TEACHER_TYPE' AND d.dict_code=t.title) AS titleName
+		FROM
+		t_teacher t
+		WHERE 1=1
+		<if test=" name != null and name != '' ">
+			AND t.name LIKE CONCAT('%',#{name},'%')
+		</if>
+
+	</select>
+</mapper>
