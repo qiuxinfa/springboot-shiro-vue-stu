@@ -39,4 +39,9 @@ public class MajorServiceImpl extends ServiceImpl<MajorMapper,Major> implements 
         super.baseMapper.insert(major);
         return  ResultUtil.result(EnumCode.OK.getValue(), "新增成功");
     }
+
+    @Override
+    public List<Major> findAllMajor() {
+        return super.baseMapper.findAllMajor();
+    }
 }

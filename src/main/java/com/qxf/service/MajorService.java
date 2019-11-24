@@ -15,4 +15,6 @@ public interface MajorService extends IService<Major>{
     public List<Major> getListByPage(Page<Major> page, String name);
 
     public Object addMajor(Major major);
+
+    public List<Major> findAllMajor();
 }

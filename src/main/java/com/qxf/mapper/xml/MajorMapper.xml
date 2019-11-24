@@ -19,4 +19,7 @@
 
 	</select>
 
+	<select id="findAllMajor" resultType="com.qxf.pojo.Major">
+		SELECT t.id,t.name FROM t_major t ORDER BY t.institute_id
+	</select>
 </mapper>

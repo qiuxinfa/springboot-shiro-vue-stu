@@ -37,4 +37,10 @@ public class MajorController {
     public Object addMajor(Major major){
         return majorService.addMajor(major);
     }
+
+    @GetMapping("/findAllMajor")
+    public Object findAllMajor(){
+        List<Major> list = majorService.findAllMajor();
+        return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list);
+    }
 }
