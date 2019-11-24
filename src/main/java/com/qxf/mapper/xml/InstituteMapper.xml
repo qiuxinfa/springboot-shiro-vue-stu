@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.InstituteMapper">
+
+	<!--查询列表-->
+	<select id="getInstituteByPage" parameterType="string" resultType="com.qxf.pojo.Institute">
+		SELECT
+		t.id,
+		t.name,
+		t.institute_number AS instituteNumber
+		FROM
+		t_institute t
+		WHERE 1=1
+		<if test=" name != null and name != '' ">
+			AND t.name LIKE CONCAT('%',#{name},'%')
+		</if>
+		ORDER BY t.dict_type_code,t.dict_order
+	</select>
+
+</mapper>

@@ -56,7 +56,7 @@ public class RolePermsServiceImpl extends ServiceImpl<RolePermsMapper, RolePerms
     /**
      * 根据父id\用户类型查询角色菜单
      */
-    public List<Perms> findRolesPermisByFatherId(String fatherId, Integer userType) {
-        return super.baseMapper.findRolesPermisByFatherId(fatherId, userType);
+    public List<Perms> findRolesPermisByFatherId(String fatherId, String roleId) {
+        return super.baseMapper.findRolesPermisByFatherId(fatherId, roleId);
     }
 }

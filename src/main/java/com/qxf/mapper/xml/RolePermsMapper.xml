@@ -41,8 +41,8 @@
             `t_perms` AS p LEFT JOIN t_role_perms AS rp ON p.id = rp.perms_id
             WHERE
             p.parent_id = '0'
-            <if test="null != userType">
-                AND rp.role_id = #{userType}
+            <if test="null != roleId and ''!=roleId">
+                AND rp.role_id = #{roleId}
             </if>
             GROUP BY p.sort
         </if>

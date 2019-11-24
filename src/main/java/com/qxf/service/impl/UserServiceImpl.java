@@ -61,7 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         loginLogService.insert(loginLog);
 
         // 根据用户类型查询  一级菜单
-        List<Perms> parentList = rolePermissionService.findRolesPermisByFatherId(null, user.getUserType());
+        List<Perms> parentList = rolePermissionService.findRolesPermisByFatherId(null, user.getRoleId());
         List<Perms> sonList = null;
         List<Perms> sonssonList = null;
         for (int i = 0, j = parentList.size(); i < j; i++) {
@@ -100,14 +100,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         u.setPassword(SecureUtil.md5(user.getPassword()));
         u.setEmail(user.getEmail());
         u.setPhotoUrl(user.getPhotoUrl());
-        //用户类型：1管理，2老师，3学生
-        u.setUserType(user.getUserType());
         u.setEnable(user.getEnable());
         u.setCreateTime(new Date());
         super.baseMapper.insert(u);
         //插入角色
         UserRole userRole = new UserRole();
-        userRole.setRoleId(u.getUserType().toString());
+        userRole.setRoleId(user.getRoleId());
         userRole.setUserId(u.getId());
         userRoleService.insert(userRole);
         return ResultUtil.result(EnumCode.OK.getValue(), "新增成功");

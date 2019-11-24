@@ -65,7 +65,7 @@ public class BaseController {
         if (null == user) {
             return null;
         }
-        return null == user.getUserType() ? null : user.getUserType().toString();
+        return null == user.getRoleId() ? null : user.getRoleId();
 
     }
 
@@ -80,7 +80,7 @@ public class BaseController {
         if (null == user) {
             return null;
         }
-        return null == user.getUserType() ? null : user.getUserType().toString();
+        return null == user.getRoleName() ? null : user.getRoleName();
 
     }
 

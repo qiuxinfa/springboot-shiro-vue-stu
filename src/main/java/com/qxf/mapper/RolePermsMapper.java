@@ -22,5 +22,5 @@ public interface RolePermsMapper extends BaseMapper<RolePerms> {
     /**
      * 根据父id\角色id查询角色菜单
      */
-    List<Perms> findRolesPermisByFatherId(@Param("parentId") String parentId, @Param("userType") Integer userType);
+    List<Perms> findRolesPermisByFatherId(@Param("parentId") String parentId, @Param("roleId") String roleId);
 }

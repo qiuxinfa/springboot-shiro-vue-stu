@@ -9,7 +9,6 @@
 		<result column="username" property="username" />
 		<result column="email" property="email" />
 		<result column="password" property="password" />
-		<result column="user_type" property="userType" />
 		<result column="enable" property="enable" />
 		<result column="create_time" property="createTime" />
 		<result column="last_login_time" property="lastLoginTime" />
@@ -22,7 +21,6 @@
 		u.email,
 		u.photo_url AS photoUrl,
 		u.enable,
-		u.user_type AS userType,
 		u.create_time AS createTime,
 		u.last_login_time AS lastLoginTime,
 		r.id AS roleId,
@@ -39,20 +37,23 @@
 
 	<select id="checkUser" resultType="com.qxf.pojo.User">
 		SELECT
-		usr.id,
-		usr.username,
-		usr.enable,
-		usr.password,
-		usr.photo_url AS photoUrl,
-		usr.email,
-		usr.user_type AS userType
+		u.id,
+		u.username,
+		u.enable,
+		u.password,
+		u.photo_url AS photoUrl,
+		u.email,
+		r.id AS roleId,
+		r.name AS roleName
 		FROM
-		t_user AS usr
+		t_user AS u
+		LEFT JOIN t_user_role AS ur ON u.id = ur.user_id
+		LEFT JOIN t_role AS r ON ur.role_id = r.id
 		WHERE
-		usr.password = #{password} AND usr.username = #{username}
+		u.password = #{password} AND u.username = #{username}
 	</select>
 
 	<select id="findUserByUsername" parameterType="string" resultMap="BaseResultMap">
-		SELECT id,username,password,email,photo_url,user_type,enable from t_user where username=#{username}
+		SELECT id,username,password,email,photo_url,enable from t_user where username=#{username}
 	</select>
 </mapper>

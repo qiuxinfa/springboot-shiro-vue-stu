@@ -26,5 +26,5 @@ public interface RolePermsService extends IService<RolePerms> {
     /**
      * 根据父id\用户类型查询角色菜单
      */
-    List<Perms> findRolesPermisByFatherId(String fatherId, Integer userType);
+    List<Perms> findRolesPermisByFatherId(String fatherId, String roleId);
 }
