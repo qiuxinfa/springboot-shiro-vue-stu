@@ -1,8 +1,8 @@
 package com.qxf.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.qxf.pojo.Teacher;
-import com.qxf.service.TeacherService;
+import com.qxf.pojo.Course;
+import com.qxf.service.CourseService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +19,20 @@ import java.util.List;
  * @Description: com.qxf.controller
  */
 @RestController
-@RequestMapping("teacher")
-public class TeacherController {
+@RequestMapping("/course")
+public class CourseController {
     @Autowired
-    private TeacherService teacherService;
+    private CourseService courseService;
 
     @GetMapping("/list")
     public Object getListByPage(Integer startPage,Integer pageSize,String name){
-        Page<Teacher> page = new Page<>(startPage,pageSize);
-        List<Teacher> list = teacherService.getListByPage(page,name);
+        Page<Course> page = new Page<>(startPage,pageSize);
+        List<Course> list = courseService.getListByPage(page,name);
         return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list,page.getTotal());
     }
 
     @PostMapping("/add")
-    public Object addTeacher (Teacher teacher){
-        return teacherService.addTeacher(teacher);
-    }
-
-    @GetMapping("/findAllTeacher")
-    public Object findAllTeacher() {
-        List<Teacher> allTeacher = teacherService.findAllTeacher();
-        return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",allTeacher);
+    public Object addCourse(Course course){
+        return courseService.addCourse(course);
     }
 }

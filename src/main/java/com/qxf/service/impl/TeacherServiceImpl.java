@@ -40,4 +40,9 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper,Teacher> imple
         super.baseMapper.insert(teacher);
         return ResultUtil.result(EnumCode.OK.getValue(),"新增成功");
     }
+
+    @Override
+    public List<Teacher> findAllTeacher() {
+        return super.baseMapper.findAllTeacher();
+    }
 }

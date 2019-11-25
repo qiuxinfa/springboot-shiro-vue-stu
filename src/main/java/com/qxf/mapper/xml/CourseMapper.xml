@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.CourseMapper">
+
+	<!--查询列表-->
+	<select id="getListByPage" parameterType="string" resultType="com.qxf.pojo.Course">
+		SELECT
+		t.id,
+		t.name,
+		t.course_type AS courseType,
+		t.credit,
+		 (select d.dict_value from t_sys_dict d WHERE d.dict_type_code='COURSE_TYPE' AND d.dict_code=t.course_type) AS courseTypeName,
+			(SELECT GROUP_CONCAT(e.`name`)
+			  FROM t_teacher e
+			INNER JOIN t_course_teacher ct ON e.id = ct.teacher_id
+			 WHERE ct.course_id = t.id
+			) AS teachersName,
+		 (select count(*) from t_student_course sc WHERE sc.course_id=t.id) studentNum
+		FROM
+		t_course t
+		WHERE 1=1
+		<if test=" name != null and name != '' ">
+			AND t.name LIKE CONCAT('%',#{name},'%')
+		</if>
+
+	</select>
+</mapper>

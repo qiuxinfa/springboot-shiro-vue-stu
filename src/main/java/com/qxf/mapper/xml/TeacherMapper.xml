@@ -21,4 +21,8 @@
 		</if>
 
 	</select>
+
+	<select id="findAllTeacher" resultType="com.qxf.pojo.Teacher">
+		SELECT  t.id,t.name from t_teacher t
+	</select>
 </mapper>

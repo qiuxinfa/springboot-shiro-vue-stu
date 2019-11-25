@@ -2,7 +2,7 @@ package com.qxf.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-import com.qxf.pojo.Teacher;
+import com.qxf.pojo.Course;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import java.util.List;
  * @Date: 2019/11/24
  * @Description: com.qxf.service
  */
-public interface TeacherService extends IService<Teacher>{
-    List<Teacher> getListByPage(Page<Teacher> page,String name);
-    Object addTeacher(Teacher teacher);
-    List<Teacher> findAllTeacher();
+public interface CourseService extends IService<Course>{
+    List<Course> getListByPage(Page<Course> page, String name);
+
+    Object addCourse(Course course);
 }

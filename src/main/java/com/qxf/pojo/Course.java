@@ -18,6 +18,13 @@ public class Course implements Serializable{
     private String name;         //课程名
     @TableField("course_type")
     private Integer courseType;  //课程类型
-    @TableField("course_number")
-    private String courseNumber; //课程编码
+    private Double credit;       //学分
+    @TableField(exist = false)
+    private String courseTypeName; //课程类型名称
+    @TableField(exist = false)
+    private String teachersName;   //任课老师，可能有多个
+    @TableField(exist = false)
+    private Integer studentNum;    //选课人数
+    @TableField(exist = false)
+    private String[] teacherIds;   //任课老师id
 }
