@@ -8,6 +8,7 @@ import com.qxf.service.PermsService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -30,6 +31,7 @@ public class PermsServiceImpl extends ServiceImpl<PermsMapper, Perms> implements
     /**
      * @desc: 新增菜单
      */
+    @Transactional
     public Object addPermissions(Perms vo) {
 
         Perms p = new Perms();
@@ -46,6 +48,7 @@ public class PermsServiceImpl extends ServiceImpl<PermsMapper, Perms> implements
     /**
      * @desc: 删除菜单  应该同时删掉t_role_perms表的相关记录
      */
+    @Transactional
     public Object delPermis(String[] ids) {
 
         for (String id : ids) {

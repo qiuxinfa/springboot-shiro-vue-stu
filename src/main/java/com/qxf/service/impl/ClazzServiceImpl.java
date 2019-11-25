@@ -9,6 +9,7 @@ import com.qxf.service.ClazzService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ public class ClazzServiceImpl extends ServiceImpl<ClazzMapper,Clazz> implements 
         return super.baseMapper.getListByPage(page,name);
     }
 
+    @Transactional
     @Override
     public Object addClazz(Clazz clazz) {
         Map<String,Object> map = new HashMap<>();

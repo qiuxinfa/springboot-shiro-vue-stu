@@ -9,6 +9,7 @@ import com.qxf.service.MajorService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ public class MajorServiceImpl extends ServiceImpl<MajorMapper,Major> implements 
         return super.baseMapper.getListByPage(page,name);
     }
 
+    @Transactional
     @Override
     public Object addMajor(Major major) {
         Map<String,Object> map = new HashMap<>();

@@ -8,6 +8,7 @@ import com.qxf.service.RoleService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     /**
      * @desc: 新增角色
      */
+    @Transactional
     public Object addRoles(Role vo) {
         Role r = new Role();
         r.setName(vo.getName());
@@ -35,6 +37,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     /**
      * @desc: 删除角色
      */
+    @Transactional
     public Object delRole(String[] ids) {
 
         for (String id : ids) {

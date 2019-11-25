@@ -9,6 +9,7 @@ import com.qxf.service.InstituteService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ public class InstituteServiceImpl extends ServiceImpl<InstituteMapper,Institute>
         return super.baseMapper.getInstituteByPage(page,name);
     }
 
+    @Transactional
     @Override
     public Object addInstitute(Institute institute) {
         Map<String,Object> map = new HashMap<>();

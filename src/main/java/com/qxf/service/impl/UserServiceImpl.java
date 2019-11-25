@@ -21,6 +21,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -86,6 +87,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         return ResultUtil.result(EnumCode.OK.getValue(), "登陆成功", JSON.toJSON(user));
     }
 
+    @Transactional
     @Override
     public Object addUser(User user) {
 

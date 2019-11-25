@@ -10,6 +10,7 @@ import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import com.xiaoleilu.hutool.crypto.SecureUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper,SysDict> implements 
         return super.baseMapper.findListByDictTypeCode(dictTypeCode);
     }
 
+    @Transactional
     @Override
     public Object addDict(SysDict dict) {
         Map<String,Object> map = new HashMap<>();

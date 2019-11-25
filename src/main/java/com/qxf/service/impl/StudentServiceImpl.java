@@ -13,6 +13,7 @@ import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -41,6 +42,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper,Student> imple
         return super.baseMapper.getListByPage(page,name);
     }
 
+    @Transactional
     @Override
     public Object addStudent(Student student) {
         //生成学号：年份+学院代码+专业代码+四位随机数字，从1000开始
