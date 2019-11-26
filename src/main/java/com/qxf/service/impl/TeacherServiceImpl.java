@@ -56,6 +56,7 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper,Teacher> imple
 
         //把老师信息插入到t_user表和t_user_roel表，使得老师可以用姓名和默认密码a123456登录
         User u = new User();
+        u.setId(teacher.getId());
         u.setUsername(teacher.getName().trim());
         u.setPassword("d477887b0636e5d87f79cc25c99d7dc9");
         if(teacher.getPhotoUrl()!=null){

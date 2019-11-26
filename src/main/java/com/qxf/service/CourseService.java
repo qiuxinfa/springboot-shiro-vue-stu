@@ -15,4 +15,8 @@ public interface CourseService extends IService<Course>{
     List<Course> getListByPage(Page<Course> page, String name);
 
     Object addCourse(Course course);
+
+    List<Course> getNotSelectedCourse(Page<Course> page, String studentId);
+
+    List<Course> getSelectedCourse(Page<Course> page, String studentId);
 }

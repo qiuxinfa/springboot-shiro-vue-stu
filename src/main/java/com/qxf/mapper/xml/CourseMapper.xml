@@ -24,4 +24,54 @@
 		</if>
 
 	</select>
+
+    <!--查询学生所有未选课程-->
+	<select id="getNotSelectedCourse" parameterType="string" resultType="com.qxf.pojo.Course">
+		SELECT
+			c.id,
+			c. NAME,
+			t.id teacherId,
+			t. NAME teachersName,
+			c.credit,
+			(
+				SELECT
+					d.dict_value
+				FROM
+					t_sys_dict d
+				WHERE
+					d.dict_type_code = 'COURSE_TYPE'
+				AND d.dict_code = c.course_type
+			) AS courseTypeName
+		FROM
+			t_teacher t
+		INNER JOIN  t_course_teacher ct ON t.id = ct.teacher_id
+		INNER JOIN  t_course c ON ct.course_id = c.id
+		AND c.id not in (select sc.course_id from t_student_course sc INNER JOIN t_student s ON sc.student_id = s.id and s.id=#{studentId})
+		ORDER BY c.credit DESC
+	</select>
+
+	<!--查询学生所有已选课程-->
+	<select id="getSelectedCourse" parameterType="string" resultType="com.qxf.pojo.Course">
+		SELECT
+		c.id,
+		c. NAME,
+		t.id teacherId,
+		t. NAME teachersName,
+		c.credit,
+		(
+		SELECT
+		d.dict_value
+		FROM
+		t_sys_dict d
+		WHERE
+		d.dict_type_code = 'COURSE_TYPE'
+		AND d.dict_code = c.course_type
+		) AS courseTypeName
+		FROM
+		t_teacher t
+		INNER JOIN  t_course_teacher ct ON t.id = ct.teacher_id
+		INNER JOIN  t_course c ON ct.course_id = c.id
+		AND c.id in (select sc.course_id from t_student_course sc INNER JOIN t_student s ON sc.student_id = s.id and s.id=#{studentId})
+		ORDER BY c.credit DESC
+	</select>
 </mapper>

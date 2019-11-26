@@ -22,6 +22,8 @@ public class Course implements Serializable{
     @TableField(exist = false)
     private String courseTypeName; //课程类型名称
     @TableField(exist = false)
+    private String teacherId;   //任课老师，可能有多个
+    @TableField(exist = false)
     private String teachersName;   //任课老师，可能有多个
     @TableField(exist = false)
     private Integer studentNum;    //选课人数

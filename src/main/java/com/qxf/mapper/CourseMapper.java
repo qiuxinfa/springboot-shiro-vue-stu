@@ -14,4 +14,8 @@ import java.util.List;
  */
 public interface CourseMapper extends BaseMapper<Course>{
     List<Course> getListByPage(Page<Course> page,@Param("name") String name);
+
+    List<Course> getNotSelectedCourse(Page<Course> page, @Param("studentId") String studentId);
+
+    List<Course> getSelectedCourse(Page<Course> page, @Param("studentId") String studentId);
 }

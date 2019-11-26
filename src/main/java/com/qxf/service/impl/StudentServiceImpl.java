@@ -74,6 +74,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper,Student> imple
 
         //把学生信息插入到t_user表和t_user_roel表，使得学生可以用姓名和默认密码a123456登录
         User u = new User();
+        u.setId(student.getId());
         u.setUsername(student.getName().trim());
         u.setPassword("d477887b0636e5d87f79cc25c99d7dc9");
         if(student.getPhotoUrl()!=null){

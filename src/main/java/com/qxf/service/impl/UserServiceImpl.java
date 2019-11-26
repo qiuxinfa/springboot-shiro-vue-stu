@@ -68,11 +68,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         for (int i = 0, j = parentList.size(); i < j; i++) {
 
             // 二级 页面
-            sonList = rolePermissionService.findRolesPermisByFatherId(parentList.get(i).getId(), null);
+            sonList = rolePermissionService.findRolesPermisByFatherId(parentList.get(i).getId(), user.getRoleId());
             for (int k = 0, l = sonList.size(); k < l; k++) {
 
                 // 三级 按钮
-                sonssonList = rolePermissionService.findRolesPermisByFatherId(sonList.get(k).getId(), null);
+                sonssonList = rolePermissionService.findRolesPermisByFatherId(sonList.get(k).getId(), user.getRoleId());
                 sonList.get(k).setChildren(sonssonList);
                 // 如果按钮级拥有权限说明页面也有权限
 //                if (!sonssonList.isEmpty() && sonssonList.size() > 0) {

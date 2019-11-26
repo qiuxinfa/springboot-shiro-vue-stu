@@ -57,4 +57,15 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper,Course> implemen
         }
         return ResultUtil.result(EnumCode.OK.getValue(),"新增成功");
     }
+
+    @Override
+    public List<Course> getNotSelectedCourse(Page<Course> page, String studentId) {
+
+        return super.baseMapper.getNotSelectedCourse(page,studentId);
+    }
+
+    @Override
+    public List<Course> getSelectedCourse(Page<Course> page, String studentId) {
+        return super.baseMapper.getSelectedCourse(page,studentId);
+    }
 }

@@ -51,9 +51,12 @@
             p.`name`,
             p.url,
             p.id
-            FROM t_perms AS p
+            FROM t_perms AS p LEFT JOIN t_role_perms AS rp ON p.id = rp.perms_id
             WHERE
             p.parent_id = #{parentId}
+            <if test="null != roleId and ''!=roleId">
+                AND rp.role_id = #{roleId}
+            </if>
             GROUP BY p.sort
         </if>
     </select>
