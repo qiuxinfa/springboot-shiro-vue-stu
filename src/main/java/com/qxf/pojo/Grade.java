@@ -27,4 +27,5 @@ public class Grade implements Serializable{
     @TableField("exam_time")
     private Date examTime;      //考试时间
     private Double score;       //得分
+    private Integer status;     //老师是否录入了成绩：1是，0否
 }

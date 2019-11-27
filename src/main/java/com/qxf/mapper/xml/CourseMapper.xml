@@ -15,7 +15,7 @@
 			INNER JOIN t_course_teacher ct ON e.id = ct.teacher_id
 			 WHERE ct.course_id = t.id
 			) AS teachersName,
-		 (select count(*) from t_student_course sc WHERE sc.course_id=t.id) studentNum
+		(select count(*) from t_grade t1 WHERE t1.course_id=t.id) studentNum
 		FROM
 		t_course t
 		WHERE 1=1
@@ -28,9 +28,8 @@
     <!--查询学生所有未选课程-->
 	<select id="getNotSelectedCourse" parameterType="string" resultType="com.qxf.pojo.Course">
 		SELECT
-			c.id,
+			ct.id,
 			c. NAME,
-			t.id teacherId,
 			t. NAME teachersName,
 			c.credit,
 			(
@@ -44,34 +43,36 @@
 			) AS courseTypeName
 		FROM
 			t_teacher t
-		INNER JOIN  t_course_teacher ct ON t.id = ct.teacher_id
-		INNER JOIN  t_course c ON ct.course_id = c.id
-		AND c.id not in (select sc.course_id from t_student_course sc INNER JOIN t_student s ON sc.student_id = s.id and s.id=#{studentId})
-		ORDER BY c.credit DESC
+		INNER JOIN t_course_teacher ct ON t.id = ct.teacher_id
+		INNER JOIN t_course c ON ct.course_id = c.id
+		AND c.id not IN (SELECT g.course_id
+			FROM t_grade g WHERE g.student_id = #{studentId})
+	  ORDER BY c.credit DESC
 	</select>
 
 	<!--查询学生所有已选课程-->
 	<select id="getSelectedCourse" parameterType="string" resultType="com.qxf.pojo.Course">
 		SELECT
-		c.id,
-		c. NAME,
-		t.id teacherId,
-		t. NAME teachersName,
-		c.credit,
-		(
-		SELECT
-		d.dict_value
+			c. NAME,
+			t. NAME teachersName,
+			c.credit,
+			(select t1.score from t_grade t1 WHERE t1.course_id=c.id) score,
+            (select t1.`status` from t_grade t1 WHERE t1.course_id=c.id) status,
+			(
+				SELECT
+					d.dict_value
+				FROM
+					t_sys_dict d
+				WHERE
+					d.dict_type_code = 'COURSE_TYPE'
+				AND d.dict_code = c.course_type
+			) AS courseTypeName
 		FROM
-		t_sys_dict d
-		WHERE
-		d.dict_type_code = 'COURSE_TYPE'
-		AND d.dict_code = c.course_type
-		) AS courseTypeName
-		FROM
-		t_teacher t
-		INNER JOIN  t_course_teacher ct ON t.id = ct.teacher_id
-		INNER JOIN  t_course c ON ct.course_id = c.id
-		AND c.id in (select sc.course_id from t_student_course sc INNER JOIN t_student s ON sc.student_id = s.id and s.id=#{studentId})
-		ORDER BY c.credit DESC
+			t_teacher t
+		INNER JOIN t_course_teacher ct ON t.id = ct.teacher_id
+		INNER JOIN t_course c ON ct.course_id = c.id
+		AND c.id IN (SELECT g.course_id
+			FROM t_grade g WHERE g.teacher_id = t.id and g.student_id = #{studentId})
+	    ORDER BY c.credit DESC
 	</select>
 </mapper>

@@ -58,4 +58,9 @@ public class CourseController {
         List<Course> list = courseService.getSelectedCourse(page,user.getId());
         return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list,page.getTotal());
     }
+
+    @PostMapping("/student")
+    public Object addCourseToStudent(Course course){
+        return courseService.addCourseToStudent(course);
+    }
 }
