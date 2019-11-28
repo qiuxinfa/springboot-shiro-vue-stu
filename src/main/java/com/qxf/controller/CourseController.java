@@ -27,6 +27,7 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    //管理员：课程列表
     @GetMapping("/list")
     public Object getListByPage(Integer startPage,Integer pageSize,String name){
         Page<Course> page = new Page<>(startPage,pageSize);
@@ -34,11 +35,13 @@ public class CourseController {
         return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list,page.getTotal());
     }
 
+    //管理员：添加新课程
     @PostMapping("/add")
     public Object addCourse(Course course){
         return courseService.addCourse(course);
     }
 
+    //学生：我的未选课程
     @GetMapping("/choice")
     public Object getNotSelectedCourse(Integer startPage, Integer pageSize, HttpSession session){
         Page<Course> page = new Page<>(startPage,pageSize);
@@ -47,6 +50,7 @@ public class CourseController {
         return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list,page.getTotal());
     }
 
+    //学生：我的课程列表
     @GetMapping("/mycourse")
     public Object getSelectedCourse(Integer startPage, Integer pageSize, HttpSession session){
         Page<Course> page = new Page<>(startPage,pageSize);
@@ -59,8 +63,20 @@ public class CourseController {
         return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list,page.getTotal());
     }
 
+    //学生：将未选课程添加到我的课程
     @PostMapping("/student")
     public Object addCourseToStudent(Course course){
         return courseService.addCourseToStudent(course);
     }
+
+    //老师：个人中心-课程中心列表
+    @GetMapping("/center")
+    public Object getCourseByTeacher(Integer startPage, Integer pageSize, HttpSession session){
+        Page<Course> page = new Page<>(startPage,pageSize);
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        List<Course> list = courseService.getCourseByTeacher(page,user.getId());
+        return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",list,page.getTotal());
+    }
+
+
 }

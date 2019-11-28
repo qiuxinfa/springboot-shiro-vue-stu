@@ -35,5 +35,5 @@ public class Course implements Serializable{
     @TableField(exist = false)
     private Integer status;      //老师是否录入了成绩：1是，0否
     @TableField(exist = false)
-    private String isCanDelete;  //是否可以退订已选课程
+    private String isCanDelete;  //是否可以退订已选课程（还在选课期间就可以退订，暂时未做）
 }

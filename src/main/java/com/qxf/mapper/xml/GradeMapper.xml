@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.mapper.GradeMapper">
+
+	<!--查询列表-->
+	<select id="viewStudent" parameterType="com.qxf.pojo.CourseTeacher" resultType="com.qxf.pojo.Grade">
+		SELECT
+		g.id,
+		g.score,
+		g.`status`,
+		(select s.`name` from t_student s where s.id = g.student_id) studentName
+		FROM
+		t_grade g
+		WHERE
+		    g.course_id = #{courseId}
+		and g.teacher_id = #{teacherId}
+
+	</select>
+
+</mapper>

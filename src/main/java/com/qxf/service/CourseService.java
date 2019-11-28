@@ -22,4 +22,6 @@ public interface CourseService extends IService<Course>{
 
     Object addCourseToStudent(Course course);
 
+    List<Course> getCourseByTeacher(Page<Course> page,String teacherId);
+
 }

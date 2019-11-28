@@ -75,4 +75,18 @@
 			FROM t_grade g WHERE g.teacher_id = t.id and g.student_id = #{studentId})
 	    ORDER BY c.credit DESC
 	</select>
+
+	<!--查询某个老师讲授的所有课程，包括已经评定成绩的课程-->
+	<select id="getCourseByTeacher" parameterType="string" resultType="com.qxf.pojo.Course">
+			SELECT
+				ct.id,
+				c.name,
+				c.credit,
+				(select d.dict_value from t_sys_dict d WHERE d.dict_type_code='COURSE_TYPE' AND d.dict_code=c.course_type) AS courseTypeName,
+				(select count(*) from t_grade t1 WHERE t1.course_id=c.id) studentNum
+				FROM t_course c
+			  INNER JOIN t_course_teacher ct ON c.id = ct.course_id
+			  INNER JOIN t_teacher t ON ct.teacher_id = t.id
+			AND t.id=#{teacherId}
+	</select>
 </mapper>

@@ -109,4 +109,9 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper,Course> implemen
         }
         return ResultUtil.result(EnumCode.OK.getValue(),"添加成功");
     }
+
+    @Override
+    public List<Course> getCourseByTeacher(Page<Course> page, String teacherId) {
+        return super.baseMapper.getCourseByTeacher(page,teacherId);
+    }
 }
