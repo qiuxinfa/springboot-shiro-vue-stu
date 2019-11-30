@@ -20,6 +20,14 @@ public class Course implements Serializable{
     @TableField("course_type")
     private Integer courseType;  //课程类型
     private Double credit;       //学分
+    @TableField("sign_stime")
+    private String signStime;    //报名开始时间
+    @TableField("sign_etime")
+    private String signEtime;    //报名结束时间
+    @TableField("exam_stime")
+    private String examStime;    //考试开始时间
+    @TableField("exam_etime")
+    private String examEtime;   //考试结束时间
     @TableField(exist = false)
     private String courseTypeName; //课程类型名称
     @TableField(exist = false)

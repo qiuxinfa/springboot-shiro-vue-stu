@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.qxf.pojo.Course;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
 public interface CourseService extends IService<Course>{
     List<Course> getListByPage(Page<Course> page, String name);
 
-    Object addCourse(Course course);
+    Object addCourse(Course course) throws ParseException;
 
     List<Course> getNotSelectedCourse(Page<Course> page, String studentId);
 

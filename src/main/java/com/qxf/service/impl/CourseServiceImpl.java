@@ -18,10 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @Auther: qiuxinfa
@@ -43,7 +42,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper,Course> implemen
 
     @Transactional
     @Override
-    public Object addCourse(Course course) {
+    public Object addCourse(Course course) throws ParseException {
         Map<String,Object> map = new HashMap<>();
         map.put("name",course.getName().trim());
         map.put("course_type",course.getCourseType());
@@ -51,6 +50,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper,Course> implemen
         if(list != null && list.size()>0){
             throw new MyException(ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), "该课程已存在", null));
         }
+
         super.baseMapper.insert(course);
 
         //插入t_course_teacher中间表，一门课程可以有多个任课老师

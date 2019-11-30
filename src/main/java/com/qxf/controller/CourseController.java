@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class CourseController {
 
     //管理员：添加新课程
     @PostMapping("/add")
-    public Object addCourse(Course course){
+    public Object addCourse(Course course) throws ParseException {
         return courseService.addCourse(course);
     }
 
