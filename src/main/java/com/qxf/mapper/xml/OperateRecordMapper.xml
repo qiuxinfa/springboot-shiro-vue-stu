@@ -42,9 +42,35 @@
 		ORDER BY op_r.create_time DESC
 	</select>
 
-	<!--没有改好-->
-	<select id="findAllRequstCount" resultType="int">
-      SELECT COUNT(*) from t_operate_record ORDER BY create_time DESC
+	<select id="findAllRequstCount" resultType="com.qxf.pojo.OperateRecord">
+      SELECT
+		rec.method,
+		COUNT(*) AS total,
+		'1' AS type
+		FROM
+			`t_operate_record` AS rec
+		GROUP BY
+			rec.method
+		UNION ALL
+		SELECT
+			u.username AS method,
+			COUNT(*) AS total,
+			'2' AS type
+		FROM
+			t_operate_record AS rec1
+		INNER JOIN t_user u ON rec1.user_id = u.id
+		GROUP BY
+			u.username
+		UNION ALL
+		SELECT
+			'未知' AS method,
+			COUNT(*) AS total,
+			'2' AS type
+		FROM
+			t_operate_record AS rec2
+		WHERE
+			rec2.user_id IS NULL
+		OR rec2.user_id NOT IN (SELECT id FROM t_user)
 	</select>
 
 </mapper>

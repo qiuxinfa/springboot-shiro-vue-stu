@@ -10,7 +10,9 @@ import com.qxf.utils.ResultUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, OperateRecord> implements OperateRecordService {
@@ -26,36 +28,31 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
      * 访问统计
      */
     public Object findUserReqTotal() {
+        List<OperateRecord> reqList = super.baseMapper.findAllRequstCount();
+        List<Map<String,Object>> reqData1 = new ArrayList<>();
+        List<Map<String,Object>> reqData2 = new ArrayList<>();
+        String[] arrNa = new String[reqList.size()];
+        for (int i = 0, j = reqList.size(); i < j; i++) {
+            if (reqList.get(i).getType().equals(1)) {
+                // 有请求方法
+                Map<String,Object> map = new HashMap<>();
+                map.put("name",reqList.get(i).getMethod());
+                map.put("value",reqList.get(i).getTotal());
+                reqData1.add(map);
+            } else {
+                // 没有查到请求方法
+                Map<String,Object> map = new HashMap<>();
+                map.put("name",reqList.get(i).getMethod());
+                map.put("value",reqList.get(i).getTotal());
+                reqData2.add(map);
+            }
+            arrNa[i] = reqList.get(i).getMethod();
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("methodList",reqData1);
+        map.put("userList",reqData2);
+        map.put("arrName",arrNa);
 
-        Integer reqList = super.baseMapper.findAllRequstCount();
-//        List<RequstOprDto> reqData1 = new ArrayList<>();
-//        List<RequstOprDto> reqData2 = new ArrayList<>();
-//        String[] arrNa = new String[reqList.size()];
-//        RequstOprDto reo = null;
-//        for (int i = 0, j = reqList.size(); i < j; i++) {
-//            if (reqList.get(i).getType().equals(1)) {
-//                // Method
-//                reo = new RequstOprDto();
-//                reo.setName(reqList.get(i).getNa());
-//                reo.setValue(reqList.get(i).getTotal());
-//                reqData1.add(reo);
-//            } else {
-//                // 源
-//                reo = new RequstOprDto();
-//                reo.setName(reqList.get(i).getNa());
-//                reo.setValue(reqList.get(i).getTotal());
-//                reqData2.add(reo);
-//            }
-//            arrNa[i] = reqList.get(i).getNa();
-//        }
-//
-//        RequstOprDto r = new RequstOprDto();
-//        List<RequstOprDto> reqData3 = new ArrayList<>();
-//        r.setMetlist((ArrayList) reqData1);
-//        r.setUsrlist((ArrayList) reqData2);
-//        r.setArrName(arrNa);
-//        reqData3.add(r);
-
-        return ResultUtil.result(EnumCode.OK.getValue(), EnumCode.OK.getText(), reqList);
+        return ResultUtil.result(EnumCode.OK.getValue(), EnumCode.OK.getText(), map);
     }
 }

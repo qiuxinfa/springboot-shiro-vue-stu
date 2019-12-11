@@ -32,4 +32,8 @@ public class OperateRecord implements Serializable{
     private String permName;        //请求url
     @TableField(exist = false)
     private String username;        //用户名
+    @TableField(exist = false)
+    private Integer total;          //请求次数
+    @TableField(exist = false)
+    private Integer type;          //请求类型
 }

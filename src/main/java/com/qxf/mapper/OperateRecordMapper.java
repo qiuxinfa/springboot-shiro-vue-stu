@@ -17,5 +17,5 @@ public interface OperateRecordMapper extends BaseMapper<OperateRecord> {
     /**
      * 统计所有 请求
      */
-    Integer findAllRequstCount();
+    List<OperateRecord> findAllRequstCount();
 }

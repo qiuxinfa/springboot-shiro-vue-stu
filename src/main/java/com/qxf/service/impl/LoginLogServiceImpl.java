@@ -39,17 +39,12 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
         String[] strName = new String[loignList.size()];
         int[] itotal = new int[loignList.size()];
         for (int i = 0, j = loignList.size(); i < j; i++) {
-            strName[i] = loignList.get(i).getUserId();
+            strName[i] = loignList.get(i).getUsername();
             itotal[i] = loignList.get(i).getLoginTotal();
         }
         Map<String,Object> map = new HashMap<>();
-        map.put("strName",strName);
-        map.put("itotal",itotal);
-//        List<LoginTotalDto> listLoginTotal = new ArrayList<>();
-//        LoginTotalDto loginTotalDto = new LoginTotalDto();
-//        loginTotalDto.setName(strName);
-//        loginTotalDto.setTotal(itotal);
-//        listLoginTotal.add(loginTotalDto);
+        map.put("name",strName);
+        map.put("total",itotal);
         return ResultUtil.result(EnumCode.OK.getValue(), EnumCode.OK.getText(), map);
     }
 }

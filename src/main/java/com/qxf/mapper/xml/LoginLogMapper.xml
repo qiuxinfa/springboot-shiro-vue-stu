@@ -41,7 +41,7 @@
     </select>
 
 
-    <select id="findUserLoginTotal" resultMap="BaseResultMap">
+    <select id="findUserLoginTotal" resultType="com.qxf.pojo.LoginLog">
     SELECT
         u.username,
         MAX(login_log.login_total) AS loginTotal

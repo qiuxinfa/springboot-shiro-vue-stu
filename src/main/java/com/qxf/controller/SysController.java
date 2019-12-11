@@ -42,4 +42,16 @@ public class SysController {
         List<OperateRecord> list = operateRecordService.findOperatingRecordByPage(page,searchKeyWord);
         return ResultUtil.result(EnumCode.OK.getValue(), EnumCode.OK.getText(), list, page.getTotal());
     }
+
+    //用户登录统计
+    @GetMapping(value = "/findUserLoginTotal")
+    public Object findUserLoginTotal() {
+        return loginLogService.findUserLoginTotal();
+    }
+
+    //用户请求统计
+    @GetMapping(value = "/findUserReqTotal")
+    public Object findUserReqTotal() {
+        return operateRecordService.findUserReqTotal();
+    }
 }
