@@ -17,6 +17,8 @@ public interface CourseService extends IService<Course>{
 
     Object addCourse(Course course) throws ParseException;
 
+    Object deleteCourse(String[] ids);
+
     List<Course> getNotSelectedCourse(Page<Course> page, String studentId);
 
     List<Course> getSelectedCourse(Page<Course> page, String studentId);

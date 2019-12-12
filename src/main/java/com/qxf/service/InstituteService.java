@@ -17,4 +17,6 @@ public interface InstituteService extends IService<Institute>{
     public Object addInstitute(Institute institute);
 
     public List<Institute> findAllInstitute();
+
+    Object deleteInstitute(String[] ids);
 }

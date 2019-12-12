@@ -67,6 +67,26 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper,Course> implemen
     }
 
     @Override
+    public Object deleteCourse(String[] ids) {
+        Map<String,Object> map;
+        for (String id : ids) {
+            //根据课程查询选课情况，如果有学生选择了该课程，则不能删除
+            map = new HashMap<>();
+            map.put("course_id",id);
+            List<Grade> list = gradeService.selectByMap(map);
+            if(list != null && list.size()>0){
+                return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), "有学生选择了其中的课程，删除失败",null);
+            }
+        }
+        //逐个删除
+        for (String id : ids){
+            baseMapper.deleteById(id);
+        }
+
+        return ResultUtil.result(EnumCode.OK.getValue(), "删除成功");
+    }
+
+    @Override
     public List<Course> getNotSelectedCourse(Page<Course> page, String studentId) {
 
         return super.baseMapper.getNotSelectedCourse(page,studentId);

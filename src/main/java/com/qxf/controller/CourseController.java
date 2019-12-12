@@ -42,6 +42,16 @@ public class CourseController {
         return courseService.addCourse(course);
     }
 
+    //管理员：删除课程
+    @PostMapping("/delete")
+    public Object deleteCourse(Course course){
+        String[] ids = course.getIds();
+        if (null == ids || ids.length == 0) {
+            return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
+        }
+        return courseService.deleteCourse(ids);
+    }
+
     //学生：我的未选课程
     @GetMapping("/choice")
     public Object getNotSelectedCourse(Integer startPage, Integer pageSize, HttpSession session){

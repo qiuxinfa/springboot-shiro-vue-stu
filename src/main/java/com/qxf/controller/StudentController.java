@@ -35,4 +35,13 @@ public class StudentController {
     public Object addStudent(Student student){
         return studentService.addStudent(student);
     }
+
+    @PostMapping("/delete")
+    public Object deleteStudent(Student student){
+        String[] ids = student.getIds();
+        if (null == ids || ids.length == 0) {
+            return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
+        }
+        return studentService.deleteStudent(ids);
+    }
 }

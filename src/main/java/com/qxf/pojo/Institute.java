@@ -18,4 +18,6 @@ public class Institute implements Serializable{
     private String name;              //学院名
     @TableField("institute_number")
     private String instituteNumber;  //学院编码
+    @TableField(exist = false)
+    private String[] ids;            //id集合
 }

@@ -37,7 +37,15 @@ public class InstituteController {
     public Object addInstitute(Institute institute){
         return instituteService.addInstitute(institute);
     }
-
+    //添加学院
+    @PostMapping("/delete")
+    public Object deleteInstitute(Institute institute){
+        String[] ids = institute.getIds();
+        if (null == ids || ids.length == 0) {
+            return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
+        }
+        return instituteService.deleteInstitute(ids);
+    }
     //学院下拉列表
     @GetMapping("/findAllInstitute")
     public Object findAllInstitute(){

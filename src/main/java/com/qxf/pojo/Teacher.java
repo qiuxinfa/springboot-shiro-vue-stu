@@ -25,4 +25,6 @@ public class Teacher implements Serializable{
     private String photoUrl;        //头像地址
     @TableField(exist = false)
     private String titleName;       //职称名称
+    @TableField(exist = false)
+    private String[] ids;            //id集合
 }

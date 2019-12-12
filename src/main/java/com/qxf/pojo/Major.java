@@ -22,4 +22,6 @@ public class Major implements Serializable{
     private String instituteId;   //学院id
     @TableField(exist = false)
     private String instituteName; //所属学院名称
+    @TableField(exist = false)
+    private String[] ids;            //id集合
 }

@@ -34,7 +34,6 @@ public class ClazzServiceImpl extends ServiceImpl<ClazzMapper,Clazz> implements 
         return super.baseMapper.getListByPage(page,name);
     }
 
-    @Transactional
     @Override
     public Object addClazz(Clazz clazz) {
         Map<String,Object> map = new HashMap<>();

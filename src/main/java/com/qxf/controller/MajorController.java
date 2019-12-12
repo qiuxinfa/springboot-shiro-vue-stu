@@ -37,7 +37,15 @@ public class MajorController {
     public Object addMajor(Major major){
         return majorService.addMajor(major);
     }
-
+    //添加学院
+    @PostMapping("/delete")
+    public Object deleteMajor(Major major){
+        String[] ids = major.getIds();
+        if (null == ids || ids.length == 0) {
+            return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
+        }
+        return majorService.deleteMajor(ids);
+    }
     @GetMapping("/findAllMajor")
     public Object findAllMajor(String instituteId){
         List<Major> list = majorService.findAllMajor(instituteId);

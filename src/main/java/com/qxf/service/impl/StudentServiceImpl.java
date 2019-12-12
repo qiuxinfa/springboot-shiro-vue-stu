@@ -100,4 +100,14 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper,Student> imple
         return super.baseMapper.getStudentCount(majorId);
     }
 
+    @Override
+    public Object deleteStudent(String[] ids) {
+        //逐个删除
+        for (String id : ids){
+            baseMapper.deleteById(id);
+        }
+
+        return ResultUtil.result(EnumCode.OK.getValue(), "删除成功");
+    }
+
 }
