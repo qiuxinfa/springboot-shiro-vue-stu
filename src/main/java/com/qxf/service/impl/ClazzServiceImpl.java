@@ -5,10 +5,14 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.qxf.exception.MyException;
 import com.qxf.mapper.ClazzMapper;
 import com.qxf.pojo.Clazz;
+import com.qxf.pojo.Student;
 import com.qxf.service.ClazzService;
+import com.qxf.service.StudentService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
@@ -22,6 +26,9 @@ import java.util.Map;
  */
 @Service
 public class ClazzServiceImpl extends ServiceImpl<ClazzMapper,Clazz> implements ClazzService {
+    @Autowired
+    private StudentService studentService;
+
     @Override
     public List<Clazz> getListByPage(Page<Clazz> page, String name) {
         return super.baseMapper.getListByPage(page,name);
@@ -45,5 +52,25 @@ public class ClazzServiceImpl extends ServiceImpl<ClazzMapper,Clazz> implements 
     @Override
     public List<Clazz> getAllClazz(String majorId) {
         return super.baseMapper.getAllClazz(majorId);
+    }
+
+    @Override
+    public Object deleteClazz(String[] ids) {
+        Map<String,Object> map;
+        for (String id : ids) {
+            //根据班级查询学生，如果有学生则不能删除
+            map = new HashMap<>();
+            map.put("clazz_id",id);
+            List<Student> list = studentService.selectByMap(map);
+            if(list != null && list.size()>0){
+                return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), "选择的班级中有学生存在，删除失败",null);
+            }
+        }
+        //逐个删除
+        for (String id : ids){
+            baseMapper.deleteById(id);
+        }
+
+        return ResultUtil.result(EnumCode.OK.getValue(), "删除成功");
     }
 }

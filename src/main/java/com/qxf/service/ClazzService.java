@@ -16,4 +16,6 @@ public interface ClazzService extends IService<Clazz>{
     public Object addClazz(Clazz clazz);
 
     List<Clazz> getAllClazz(String majorId);
+
+    Object deleteClazz(String[] ids);
 }

@@ -36,6 +36,15 @@ public class ClazzController {
         return clazzService.addClazz(clazz);
     }
 
+    @PostMapping("/delete")
+    public Object deleteClazz(Clazz clazz){
+        String[] ids = clazz.getIds();
+        if (null == ids || ids.length == 0) {
+            return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
+        }
+        return clazzService.deleteClazz(ids);
+    }
+
     @GetMapping("/findAllClazz")
     public Object getAllClazz(String majorId){
         List<Clazz> list = clazzService.getAllClazz(majorId);

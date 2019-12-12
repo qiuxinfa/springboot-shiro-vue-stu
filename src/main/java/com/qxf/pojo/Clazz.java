@@ -24,4 +24,6 @@ public class Clazz implements Serializable{
     private String majorName;        //专业名称
     @TableField(exist = false)
     private String instituteName;    //学院名称
+    @TableField(exist = false)
+    private String[] ids;            //id集合
 }
