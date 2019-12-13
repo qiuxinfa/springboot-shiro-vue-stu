@@ -74,10 +74,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
                 // 三级 按钮
                 sonssonList = rolePermissionService.findRolesPermisByFatherId(sonList.get(k).getId(), user.getRoleId());
                 sonList.get(k).setChildren(sonssonList);
-                // 如果按钮级拥有权限说明页面也有权限
-//                if (!sonssonList.isEmpty() && sonssonList.size() > 0) {
-//                    trueChildrenList.add(sonList.get(k));
-//                }
             }
             parentList.get(i).setChildren(sonList);
         }

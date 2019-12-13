@@ -26,13 +26,14 @@ public class AuthRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
+    //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
         return null;
     }
 
     /**
-     * @desc: 授权
+     * @desc: 认证
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {

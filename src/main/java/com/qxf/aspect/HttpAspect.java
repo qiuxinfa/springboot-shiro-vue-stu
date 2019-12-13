@@ -102,7 +102,7 @@ public class HttpAspect extends BaseController {
         log.info("请求url:{}",requestUrl);
         log.info("请求源ip:{}",remoteAddr);
         log.info("请求方式:{}",method);
-       // log.info("请求方法:{}",joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName()+ "()");
+        log.info("请求方法:{}",joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName()+ "()");
         log.info("请求参数:{}", args);
         log.info("getContextPath:{}",request.getContextPath());
         log.info("========================== ↑收到请求↑ ==========================");
@@ -111,11 +111,13 @@ public class HttpAspect extends BaseController {
         or.setRequestUrl(requestUrl);
         or.setRemoteAddr(remoteAddr);
         or.setMethod(method);
-       // or.setParams(args);
+       // or.setParams(args);   //参数太长会报错
         or.setCreateTime(new Date());
         or.setUserId(super.getUserId());
 
+        //下面根据请求的url，进行权限验证
         Integer count = permissionService.findCountByUrl(requestUrl);
+          //如果请求的url存在数据库中，说明是有权限的，否则不需要权限
         if (count != 0){
             String roleId = super.getRoleId();
             if (StringUtils.isEmpty(roleId)) {
@@ -125,6 +127,7 @@ public class HttpAspect extends BaseController {
             }
 
             Integer row = rolePermissionService.findCountByRole(roleId, request.getRequestURI().replaceAll(request.getContextPath(),""));
+            //如果当前角色没有权限，并且不是管理员，角色"1"为管理员，这里可以根据情况调整，因为管理员也不是拥有所有权限
             if (row == 0 && ! "1".equals(super.getRoleId())) {
                 or.setIsSuccess(0);
                 operatingRecordService.insert(or);
