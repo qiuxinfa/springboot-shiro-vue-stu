@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.dao.QuestionChoicDao">
+
+    <resultMap type="com.qxf.pojo.QuestionChoic" id="QuestionChoicMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="OTHER"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="OTHER"/>
+        <result property="questionContent" column="question_content" jdbcType="VARCHAR"/>
+        <result property="choiceA" column="choice_A" jdbcType="VARCHAR"/>
+        <result property="choiceB" column="choice_B" jdbcType="VARCHAR"/>
+        <result property="choiceC" column="choice_C" jdbcType="VARCHAR"/>
+        <result property="choiceD" column="choice_D" jdbcType="VARCHAR"/>
+        <result property="questionAnswer" column="question_answer" jdbcType="VARCHAR"/>
+        <result property="questionExplain" column="question_explain" jdbcType="VARCHAR"/>
+        <result property="questionScore" column="question_score" jdbcType="VARCHAR"/>
+        <result property="questionLevel" column="question_level" jdbcType="VARCHAR"/>
+        <result property="questionSubject" column="question_subject" jdbcType="VARCHAR"/>
+        <result property="questionType" column="question_type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QuestionChoicMap">
+        select
+          id, create_id, create_time, update_id, update_time, question_content, choice_A, choice_B, choice_C, choice_D, question_answer, question_explain, question_score, question_level, question_subject, question_type
+        from boot_shiro_vue_stu.question_choic
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="QuestionChoicMap">
+        select
+          id, create_id, create_time, update_id, update_time, question_content, choice_A, choice_B, choice_C, choice_D, question_answer, question_explain, question_score, question_level, question_subject, question_type
+        from boot_shiro_vue_stu.question_choic
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="QuestionChoicMap">
+        select
+          id, create_id, create_time, update_id, update_time, question_content, choice_A, choice_B, choice_C, choice_D, question_answer, question_explain, question_score, question_level, question_subject, question_type
+        from boot_shiro_vue_stu.question_choic
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                and question_content = #{questionContent}
+            </if>
+            <if test="choiceA != null and choiceA != ''">
+                and choice_A = #{choiceA}
+            </if>
+            <if test="choiceB != null and choiceB != ''">
+                and choice_B = #{choiceB}
+            </if>
+            <if test="choiceC != null and choiceC != ''">
+                and choice_C = #{choiceC}
+            </if>
+            <if test="choiceD != null and choiceD != ''">
+                and choice_D = #{choiceD}
+            </if>
+            <if test="questionAnswer != null and questionAnswer != ''">
+                and question_answer = #{questionAnswer}
+            </if>
+            <if test="questionExplain != null and questionExplain != ''">
+                and question_explain = #{questionExplain}
+            </if>
+            <if test="questionScore != null and questionScore != ''">
+                and question_score = #{questionScore}
+            </if>
+            <if test="questionLevel != null and questionLevel != ''">
+                and question_level = #{questionLevel}
+            </if>
+            <if test="questionSubject != null and questionSubject != ''">
+                and question_subject = #{questionSubject}
+            </if>
+            <if test="questionType != null">
+                and question_type = #{questionType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into boot_shiro_vue_stu.question_choic(create_id, create_time, update_id, update_time, question_content, choice_A, choice_B, choice_C, choice_D, question_answer, question_explain, question_score, question_level, question_subject, question_type)
+        values (#{createId}, #{createTime}, #{updateId}, #{updateTime}, #{questionContent}, #{choiceA}, #{choiceB}, #{choiceC}, #{choiceD}, #{questionAnswer}, #{questionExplain}, #{questionScore}, #{questionLevel}, #{questionSubject}, #{questionType})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update boot_shiro_vue_stu.question_choic
+        <set>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                question_content = #{questionContent},
+            </if>
+            <if test="choiceA != null and choiceA != ''">
+                choice_A = #{choiceA},
+            </if>
+            <if test="choiceB != null and choiceB != ''">
+                choice_B = #{choiceB},
+            </if>
+            <if test="choiceC != null and choiceC != ''">
+                choice_C = #{choiceC},
+            </if>
+            <if test="choiceD != null and choiceD != ''">
+                choice_D = #{choiceD},
+            </if>
+            <if test="questionAnswer != null and questionAnswer != ''">
+                question_answer = #{questionAnswer},
+            </if>
+            <if test="questionExplain != null and questionExplain != ''">
+                question_explain = #{questionExplain},
+            </if>
+            <if test="questionScore != null and questionScore != ''">
+                question_score = #{questionScore},
+            </if>
+            <if test="questionLevel != null and questionLevel != ''">
+                question_level = #{questionLevel},
+            </if>
+            <if test="questionSubject != null and questionSubject != ''">
+                question_subject = #{questionSubject},
+            </if>
+            <if test="questionType != null">
+                question_type = #{questionType},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from boot_shiro_vue_stu.question_choic where id = #{id}
+    </delete>
+
+</mapper>

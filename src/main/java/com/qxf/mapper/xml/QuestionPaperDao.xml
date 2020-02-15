@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxf.dao.QuestionPaperDao">
+
+    <resultMap type="com.qxf.pojo.QuestionPaper" id="QuestionPaperMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="paperId" column="paper_id" jdbcType="VARCHAR"/>
+        <result property="questionId" column="question_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QuestionPaperMap">
+        select
+          id, paper_id, question_id
+        from boot_shiro_vue_stu.question_paper
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="QuestionPaperMap">
+        select
+          id, paper_id, question_id
+        from boot_shiro_vue_stu.question_paper
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="QuestionPaperMap">
+        select
+          id, paper_id, question_id
+        from boot_shiro_vue_stu.question_paper
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="paperId != null and paperId != ''">
+                and paper_id = #{paperId}
+            </if>
+            <if test="questionId != null and questionId != ''">
+                and question_id = #{questionId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into boot_shiro_vue_stu.question_paper(paper_id, question_id)
+        values (#{paperId}, #{questionId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update boot_shiro_vue_stu.question_paper
+        <set>
+            <if test="paperId != null and paperId != ''">
+                paper_id = #{paperId},
+            </if>
+            <if test="questionId != null and questionId != ''">
+                question_id = #{questionId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from boot_shiro_vue_stu.question_paper where id = #{id}
+    </delete>
+
+</mapper>
