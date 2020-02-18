@@ -1,11 +1,11 @@
 package com.qxf.service.impl;
 
+import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.qxf.pojo.QuestionExam;
 import com.qxf.mapper.QuestionExamDao;
 import com.qxf.service.QuestionExamService;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -15,65 +15,17 @@ import java.util.List;
  * @since 2020-02-15 16:56:56
  */
 @Service("questionExamService")
-public class QuestionExamServiceImpl implements QuestionExamService {
-    @Resource
-    private QuestionExamDao questionExamDao;
+public class QuestionExamServiceImpl extends ServiceImpl<QuestionExamDao,QuestionExam> implements QuestionExamService {
 
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
+
     @Override
-    public QuestionExam queryById(String id) {
-        return this.questionExamDao.queryById(id);
+    public List<QuestionExam> getListByPage(Page<QuestionExam> page, String name) {
+        return super.baseMapper.getListByPage(page,name);
     }
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
     @Override
-    public List<QuestionExam> queryAllByLimit(int offset, int limit) {
-        return this.questionExamDao.queryAllByLimit(offset, limit);
+    public QuestionExam getExamById(String id) {
+        return super.baseMapper.getExamById(id);
     }
 
-    /**
-     * 新增数据
-     *
-     * @param questionExam 实例对象
-     * @return 实例对象
-     */
-    @Override
-    public QuestionExam insert(QuestionExam questionExam) {
-        this.questionExamDao.insert(questionExam);
-        return questionExam;
-    }
-
-    /**
-     * 修改数据
-     *
-     * @param questionExam 实例对象
-     * @return 实例对象
-     */
-    @Override
-    public QuestionExam update(QuestionExam questionExam) {
-        this.questionExamDao.update(questionExam);
-        return this.queryById(questionExam.getId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param id 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(String id) {
-        return this.questionExamDao.deleteById(id) > 0;
-    }
 }

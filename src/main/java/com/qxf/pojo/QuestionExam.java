@@ -25,7 +25,7 @@ public class QuestionExam implements Serializable {
     /**
     * 试卷ID
     */
-    private Integer paperId;
+    private String paperId;
     /**
     * 考试日期
     */
@@ -76,11 +76,11 @@ public class QuestionExam implements Serializable {
         this.examCourse = examCourse;
     }
 
-    public Integer getPaperId() {
+    public String getPaperId() {
         return paperId;
     }
 
-    public void setPaperId(Integer paperId) {
+    public void setPaperId(String  paperId) {
         this.paperId = paperId;
     }
 

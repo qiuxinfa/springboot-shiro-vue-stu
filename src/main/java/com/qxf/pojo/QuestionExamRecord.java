@@ -39,10 +39,21 @@ public class QuestionExamRecord implements Serializable {
     */
     private Integer joinResultLevel;
     /**
-    * 考生选择的答案id集合
+    * 考生填空题答案
     */
-    private String joinAnswerIds;
-
+    private String joinAnswerFill;
+    /**
+     * 考生判断题答案
+     */
+    private String joinAnswerJudge;
+    /**
+     * 考生单选题答案
+     */
+    private String joinAnswerSingle;
+    /**
+     * 考生多选题答案
+     */
+    private String joinAnswerMultiple;
 
     public String getId() {
         return id;
@@ -100,12 +111,35 @@ public class QuestionExamRecord implements Serializable {
         this.joinResultLevel = joinResultLevel;
     }
 
-    public String getJoinAnswerIds() {
-        return joinAnswerIds;
+    public String getJoinAnswerFill() {
+        return joinAnswerFill;
     }
 
-    public void setJoinAnswerIds(String joinAnswerIds) {
-        this.joinAnswerIds = joinAnswerIds;
+    public void setJoinAnswerFill(String joinAnswerFill) {
+        this.joinAnswerFill = joinAnswerFill;
     }
 
+    public String getJoinAnswerJudge() {
+        return joinAnswerJudge;
+    }
+
+    public void setJoinAnswerJudge(String joinAnswerJudge) {
+        this.joinAnswerJudge = joinAnswerJudge;
+    }
+
+    public String getJoinAnswerSingle() {
+        return joinAnswerSingle;
+    }
+
+    public void setJoinAnswerSingle(String joinAnswerSingle) {
+        this.joinAnswerSingle = joinAnswerSingle;
+    }
+
+    public String getJoinAnswerMultiple() {
+        return joinAnswerMultiple;
+    }
+
+    public void setJoinAnswerMultiple(String joinAnswerMultiple) {
+        this.joinAnswerMultiple = joinAnswerMultiple;
+    }
 }

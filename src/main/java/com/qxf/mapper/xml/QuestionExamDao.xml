@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qxf.dao.QuestionExamDao">
+<mapper namespace="com.qxf.mapper.QuestionExamDao">
 
     <resultMap type="com.qxf.pojo.QuestionExam" id="QuestionExamMap">
         <result property="id" column="id" jdbcType="VARCHAR"/>
         <result property="examDesc" column="exam_desc" jdbcType="VARCHAR"/>
         <result property="examCourse" column="exam_course" jdbcType="VARCHAR"/>
-        <result property="paperId" column="paper_id" jdbcType="INTEGER"/>
+        <result property="paperId" column="paper_id" jdbcType="VARCHAR"/>
         <result property="examDate" column="exam_date" jdbcType="OTHER"/>
         <result property="totalTime" column="total_time" jdbcType="INTEGER"/>
         <result property="major" column="major" jdbcType="VARCHAR"/>
@@ -15,105 +15,24 @@
         <result property="examType" column="exam_type" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <!--查询单个-->
-    <select id="queryById" resultMap="QuestionExamMap">
-        select
-          id, exam_desc, exam_course, paper_id, exam_date, total_time, major, institute, total_score, exam_type
-        from boot_shiro_vue_stu.question_exam
-        where id = #{id}
-    </select>
-
     <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="QuestionExamMap">
+    <select id="getListByPage" parameterType="string"  resultMap="QuestionExamMap">
         select
           id, exam_desc, exam_course, paper_id, exam_date, total_time, major, institute, total_score, exam_type
-        from boot_shiro_vue_stu.question_exam
-        limit #{offset}, #{limit}
+        from question_exam
+        WHERE 1=1
+        <if test=" name != null and name != '' ">
+            AND exam_course LIKE CONCAT('%',#{name},'%')
+        </if>
     </select>
 
-    <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="QuestionExamMap">
+    <!--根据id查询考试安排-->
+    <select id="getExamById" parameterType="string" resultMap="QuestionExamMap">
         select
           id, exam_desc, exam_course, paper_id, exam_date, total_time, major, institute, total_score, exam_type
-        from boot_shiro_vue_stu.question_exam
-        <where>
-            <if test="id != null and id != ''">
-                and id = #{id}
-            </if>
-            <if test="examDesc != null and examDesc != ''">
-                and exam_desc = #{examDesc}
-            </if>
-            <if test="examCourse != null and examCourse != ''">
-                and exam_course = #{examCourse}
-            </if>
-            <if test="paperId != null">
-                and paper_id = #{paperId}
-            </if>
-            <if test="examDate != null">
-                and exam_date = #{examDate}
-            </if>
-            <if test="totalTime != null">
-                and total_time = #{totalTime}
-            </if>
-            <if test="major != null and major != ''">
-                and major = #{major}
-            </if>
-            <if test="institute != null and institute != ''">
-                and institute = #{institute}
-            </if>
-            <if test="totalScore != null">
-                and total_score = #{totalScore}
-            </if>
-            <if test="examType != null and examType != ''">
-                and exam_type = #{examType}
-            </if>
-        </where>
+        from question_exam
+        where id=#{id}
     </select>
 
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into boot_shiro_vue_stu.question_exam(exam_desc, exam_course, paper_id, exam_date, total_time, major, institute, total_score, exam_type)
-        values (#{examDesc}, #{examCourse}, #{paperId}, #{examDate}, #{totalTime}, #{major}, #{institute}, #{totalScore}, #{examType})
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update boot_shiro_vue_stu.question_exam
-        <set>
-            <if test="examDesc != null and examDesc != ''">
-                exam_desc = #{examDesc},
-            </if>
-            <if test="examCourse != null and examCourse != ''">
-                exam_course = #{examCourse},
-            </if>
-            <if test="paperId != null">
-                paper_id = #{paperId},
-            </if>
-            <if test="examDate != null">
-                exam_date = #{examDate},
-            </if>
-            <if test="totalTime != null">
-                total_time = #{totalTime},
-            </if>
-            <if test="major != null and major != ''">
-                major = #{major},
-            </if>
-            <if test="institute != null and institute != ''">
-                institute = #{institute},
-            </if>
-            <if test="totalScore != null">
-                total_score = #{totalScore},
-            </if>
-            <if test="examType != null and examType != ''">
-                exam_type = #{examType},
-            </if>
-        </set>
-        where id = #{id}
-    </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete from boot_shiro_vue_stu.question_exam where id = #{id}
-    </delete>
 
 </mapper>

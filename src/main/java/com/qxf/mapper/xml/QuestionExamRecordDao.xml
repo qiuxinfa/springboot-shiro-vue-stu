@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qxf.dao.QuestionExamRecordDao">
+<mapper namespace="com.qxf.mapper.QuestionExamRecordDao">
 
     <resultMap type="com.qxf.pojo.QuestionExamRecord" id="QuestionExamRecordMap">
         <result property="id" column="id" jdbcType="VARCHAR"/>
@@ -10,96 +10,16 @@
         <result property="joinTimeCost" column="join_time_cost" jdbcType="INTEGER"/>
         <result property="joinScore" column="join_score" jdbcType="INTEGER"/>
         <result property="joinResultLevel" column="join_result_level" jdbcType="INTEGER"/>
-        <result property="joinAnswerIds" column="join_answer_ids" jdbcType="VARCHAR"/>
+        <result property="joinAnswerFill" column="join_answer_fill" jdbcType="VARCHAR"/>
+        <result property="joinAnswerJudge" column="join_answer_judge" jdbcType="VARCHAR"/>
+        <result property="joinAnswerSingle" column="join_answer_single" jdbcType="VARCHAR"/>
+        <result property="joinAnswerMultiple" column="join_answer_multiple" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <!--查询单个-->
-    <select id="queryById" resultMap="QuestionExamRecordMap">
-        select
-          id, exam_id, join_id, join_date, join_time_cost, join_score, join_result_level, join_answer_ids
-        from boot_shiro_vue_stu.question_exam_record
-        where id = #{id}
-    </select>
-
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="QuestionExamRecordMap">
-        select
-          id, exam_id, join_id, join_date, join_time_cost, join_score, join_result_level, join_answer_ids
-        from boot_shiro_vue_stu.question_exam_record
-        limit #{offset}, #{limit}
-    </select>
-
-    <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="QuestionExamRecordMap">
-        select
-          id, exam_id, join_id, join_date, join_time_cost, join_score, join_result_level, join_answer_ids
-        from boot_shiro_vue_stu.question_exam_record
-        <where>
-            <if test="id != null and id != ''">
-                and id = #{id}
-            </if>
-            <if test="examId != null and examId != ''">
-                and exam_id = #{examId}
-            </if>
-            <if test="joinId != null and joinId != ''">
-                and join_id = #{joinId}
-            </if>
-            <if test="joinDate != null">
-                and join_date = #{joinDate}
-            </if>
-            <if test="joinTimeCost != null">
-                and join_time_cost = #{joinTimeCost}
-            </if>
-            <if test="joinScore != null">
-                and join_score = #{joinScore}
-            </if>
-            <if test="joinResultLevel != null">
-                and join_result_level = #{joinResultLevel}
-            </if>
-            <if test="joinAnswerIds != null and joinAnswerIds != ''">
-                and join_answer_ids = #{joinAnswerIds}
-            </if>
-        </where>
-    </select>
-
     <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into boot_shiro_vue_stu.question_exam_record(exam_id, join_id, join_date, join_time_cost, join_score, join_result_level, join_answer_ids)
-        values (#{examId}, #{joinId}, #{joinDate}, #{joinTimeCost}, #{joinScore}, #{joinResultLevel}, #{joinAnswerIds})
+    <insert id="add" parameterType="com.qxf.pojo.QuestionExamRecord">
+        insert into boot_shiro_vue_stu.question_exam_record(id,exam_id, join_id, join_date, join_time_cost, join_score, join_result_level, join_answer_fill, join_answer_judge, join_answer_single,join_answer_multiple)
+        values (#{id}, #{examId}, #{joinId}, #{joinDate}, #{joinTimeCost}, #{joinScore}, #{joinResultLevel}, #{joinAnswerFill}, #{joinAnswerJudge}, #{joinAnswerSingle}, #{joinAnswerMultiple})
     </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update boot_shiro_vue_stu.question_exam_record
-        <set>
-            <if test="examId != null and examId != ''">
-                exam_id = #{examId},
-            </if>
-            <if test="joinId != null and joinId != ''">
-                join_id = #{joinId},
-            </if>
-            <if test="joinDate != null">
-                join_date = #{joinDate},
-            </if>
-            <if test="joinTimeCost != null">
-                join_time_cost = #{joinTimeCost},
-            </if>
-            <if test="joinScore != null">
-                join_score = #{joinScore},
-            </if>
-            <if test="joinResultLevel != null">
-                join_result_level = #{joinResultLevel},
-            </if>
-            <if test="joinAnswerIds != null and joinAnswerIds != ''">
-                join_answer_ids = #{joinAnswerIds},
-            </if>
-        </set>
-        where id = #{id}
-    </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete from boot_shiro_vue_stu.question_exam_record where id = #{id}
-    </delete>
 
 </mapper>

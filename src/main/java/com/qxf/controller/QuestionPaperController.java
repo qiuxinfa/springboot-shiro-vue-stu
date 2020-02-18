@@ -2,9 +2,13 @@ package com.qxf.controller;
 
 import com.qxf.pojo.QuestionPaper;
 import com.qxf.service.QuestionPaperService;
+import com.qxf.utils.EnumCode;
+import com.qxf.utils.ResultUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 试卷(QuestionPaper)表控制层
@@ -13,7 +17,7 @@ import javax.annotation.Resource;
  * @since 2020-02-15 16:56:56
  */
 @RestController
-@RequestMapping("questionPaper")
+@RequestMapping("paper")
 public class QuestionPaperController {
     /**
      * 服务对象
@@ -24,12 +28,13 @@ public class QuestionPaperController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param paperId 主键
      * @return 单条数据
      */
-    @GetMapping("selectOne")
-    public QuestionPaper selectOne(String id) {
-        return this.questionPaperService.queryById(id);
+    @GetMapping("getPaperById")
+    public Object getPaperById(String paperId) {
+        Map<String,List<?>> map = this.questionPaperService.getPaperById(paperId);
+        return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",map);
     }
 
 }

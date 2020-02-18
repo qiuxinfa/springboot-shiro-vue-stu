@@ -2,11 +2,18 @@ package com.qxf.service.impl;
 
 import com.qxf.pojo.QuestionExamRecord;
 import com.qxf.mapper.QuestionExamRecordDao;
+import com.qxf.pojo.User;
 import com.qxf.service.QuestionExamRecordService;
+import com.qxf.utils.EnumCode;
+import com.qxf.utils.ResultUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 考试记录表(QuestionExamRecord)表服务实现类
@@ -19,61 +26,15 @@ public class QuestionExamRecordServiceImpl implements QuestionExamRecordService 
     @Resource
     private QuestionExamRecordDao questionExamRecordDao;
 
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
     @Override
-    public QuestionExamRecord queryById(String id) {
-        return this.questionExamRecordDao.queryById(id);
-    }
-
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    @Override
-    public List<QuestionExamRecord> queryAllByLimit(int offset, int limit) {
-        return this.questionExamRecordDao.queryAllByLimit(offset, limit);
-    }
-
-    /**
-     * 新增数据
-     *
-     * @param questionExamRecord 实例对象
-     * @return 实例对象
-     */
-    @Override
-    public QuestionExamRecord insert(QuestionExamRecord questionExamRecord) {
-        this.questionExamRecordDao.insert(questionExamRecord);
-        return questionExamRecord;
-    }
-
-    /**
-     * 修改数据
-     *
-     * @param questionExamRecord 实例对象
-     * @return 实例对象
-     */
-    @Override
-    public QuestionExamRecord update(QuestionExamRecord questionExamRecord) {
-        this.questionExamRecordDao.update(questionExamRecord);
-        return this.queryById(questionExamRecord.getId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param id 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(String id) {
-        return this.questionExamRecordDao.deleteById(id) > 0;
+    public Object add(QuestionExamRecord questionExamRecord) {
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        questionExamRecord.setId(UUID.randomUUID().toString().replace("-",""));
+        questionExamRecord.setJoinId(user.getId());  //当前考试人ID
+        questionExamRecord.setJoinDate(new Date());  //考试日期
+        //questionExamRecord.setJoinResultLevel();
+        this.questionExamRecordDao.add(questionExamRecord);
+        return ResultUtil.result(EnumCode.OK.getValue(),"考试结束，成绩为："+questionExamRecord.getJoinScore());
     }
 }
