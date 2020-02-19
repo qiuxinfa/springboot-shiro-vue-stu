@@ -19,4 +19,6 @@ public interface QuestionExamService extends IService<QuestionExam>{
 
     Object add(QuestionExam exam);
 
+    Object delete(String[] ids);
+
 }

@@ -22,4 +22,6 @@ public interface QuestionExamDao extends BaseMapper<QuestionExam>{
     int add(QuestionExam questionExam);
 
     int updateScoreByPaperId(QuestionExam questionExam);
+
+    int deleteExamById(String id);
 }

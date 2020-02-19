@@ -52,6 +52,16 @@ public class QuestionExam implements Serializable {
     private String examType;
 
 
+    private String[] ids;
+
+    public String[] getIds() {
+        return ids;
+    }
+
+    public void setIds(String[] ids) {
+        this.ids = ids;
+    }
+
     public String getId() {
         return id;
     }

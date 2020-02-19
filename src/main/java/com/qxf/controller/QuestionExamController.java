@@ -45,4 +45,14 @@ public class QuestionExamController {
     public Object add(QuestionExam exam) {
         return this.questionExamService.add(exam);
     }
+
+
+    @PostMapping("/delete")
+    public Object delete(QuestionExam exam){
+        String[] ids = exam.getIds();
+        if (null == ids || ids.length == 0) {
+            return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(), EnumCode.BAD_REQUEST.getText());
+        }
+        return questionExamService.delete(ids);
+    }
 }

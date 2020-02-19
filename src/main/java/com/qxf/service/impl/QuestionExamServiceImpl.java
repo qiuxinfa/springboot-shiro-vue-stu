@@ -8,7 +8,11 @@ import com.qxf.service.QuestionExamService;
 import com.qxf.utils.EnumCode;
 import com.qxf.utils.ResultUtil;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -20,6 +24,8 @@ import java.util.UUID;
 @Service("questionExamService")
 public class QuestionExamServiceImpl extends ServiceImpl<QuestionExamDao,QuestionExam> implements QuestionExamService {
 
+    @Resource
+    private QuestionExamDao questionExamDao;
 
     @Override
     public List<QuestionExam> getListByPage(Page<QuestionExam> page, String name) {
@@ -43,6 +49,16 @@ public class QuestionExamServiceImpl extends ServiceImpl<QuestionExamDao,Questio
             return ResultUtil.result(EnumCode.BAD_REQUEST.getValue(),"新增失败");
         }
 
+    }
+
+    @Override
+    public Object delete(String[] ids) {
+        //逐个删除
+        for (String id : ids){
+            questionExamDao.deleteExamById(id);
+        }
+
+        return ResultUtil.result(EnumCode.OK.getValue(), "删除成功");
     }
 
 }
