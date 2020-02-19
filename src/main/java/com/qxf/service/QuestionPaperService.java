@@ -1,6 +1,7 @@
 package com.qxf.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.qxf.pojo.ExamVo;
 import com.qxf.pojo.QuestionPaper;
 import java.util.List;
 import java.util.Map;
@@ -15,4 +16,5 @@ public interface QuestionPaperService{
 
     Map<String,List<?>> getPaperById(String paperId);
 
+    Object add(ExamVo exam);
 }

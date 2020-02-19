@@ -17,4 +17,6 @@ public interface QuestionExamService extends IService<QuestionExam>{
 
     QuestionExam getExamById(String id);
 
+    Object add(QuestionExam exam);
+
 }

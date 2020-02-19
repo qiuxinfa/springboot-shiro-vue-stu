@@ -1,5 +1,7 @@
 package com.qxf.controller;
 
+import com.qxf.pojo.ExamVo;
+import com.qxf.pojo.QuestionExam;
 import com.qxf.pojo.QuestionPaper;
 import com.qxf.service.QuestionPaperService;
 import com.qxf.utils.EnumCode;
@@ -37,4 +39,9 @@ public class QuestionPaperController {
         return ResultUtil.result(EnumCode.OK.getValue(),"请求成功",map);
     }
 
+    //随机组卷（暂时不考虑多选题）
+    @PostMapping("/add")
+    public Object add(ExamVo exam) {
+        return this.questionPaperService.add(exam);
+    }
 }

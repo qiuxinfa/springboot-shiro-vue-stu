@@ -8,4 +8,8 @@
         <result property="questionId" column="question_id" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <insert id="add" parameterType="com.qxf.pojo.QuestionPaper">
+        INSERT INTO question_paper(id,paper_id,question_id)
+         VALUES (#{id},#{paperId},#{questionId})
+    </insert>
 </mapper>

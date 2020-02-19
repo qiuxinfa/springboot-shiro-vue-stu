@@ -18,4 +18,8 @@ public interface QuestionExamDao extends BaseMapper<QuestionExam>{
     List<QuestionExam> getListByPage(Page<QuestionExam> page, @Param("name") String name);
 
     QuestionExam getExamById(String id);
+
+    int add(QuestionExam questionExam);
+
+    int updateScoreByPaperId(QuestionExam questionExam);
 }

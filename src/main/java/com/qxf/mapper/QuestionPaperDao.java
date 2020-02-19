@@ -12,5 +12,5 @@ import java.util.List;
  * @since 2020-02-15 16:56:56
  */
 public interface QuestionPaperDao {
-
+    int add(QuestionPaper questionPaper);
 }

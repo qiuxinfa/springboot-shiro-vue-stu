@@ -35,6 +35,6 @@ public class QuestionExamRecordServiceImpl implements QuestionExamRecordService 
         questionExamRecord.setJoinDate(new Date());  //考试日期
         //questionExamRecord.setJoinResultLevel();
         this.questionExamRecordDao.add(questionExamRecord);
-        return ResultUtil.result(EnumCode.OK.getValue(),"考试结束，成绩为："+questionExamRecord.getJoinScore());
+        return ResultUtil.result(EnumCode.OK.getValue(),"考试结束，成绩为："+questionExamRecord.getJoinScore()+"分");
     }
 }

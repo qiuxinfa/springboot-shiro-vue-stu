@@ -22,7 +22,9 @@
           SELECT t.* from question_fill_judge t,question_paper p
         where t.id=p.question_id
             and t.question_type=#{questionType}
-            and p.paper_id=#{paperId}
+            <if test="paperId!=null and paperId!=''">
+                and p.paper_id=#{paperId}
+            </if>
     </select>
 
 </mapper>

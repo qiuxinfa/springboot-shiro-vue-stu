@@ -18,21 +18,33 @@
     <!--查询指定行数据-->
     <select id="getListByPage" parameterType="string"  resultMap="QuestionExamMap">
         select
-          id, exam_desc, exam_course, paper_id, exam_date, total_time, major, institute, total_score, exam_type
-        from question_exam
+             e.id, e.exam_desc, e.exam_course, e.paper_id, e.exam_date, e.total_time,e.total_score, e.exam_type,
+            (SELECT t.name from t_major t where t.id=e.major) major,
+            (SELECT t.name FROM t_institute t WHERE t.id=e.institute) institute
+        from question_exam e
         WHERE 1=1
         <if test=" name != null and name != '' ">
-            AND exam_course LIKE CONCAT('%',#{name},'%')
+            AND e.exam_course LIKE CONCAT('%',#{name},'%')
         </if>
     </select>
 
     <!--根据id查询考试安排-->
     <select id="getExamById" parameterType="string" resultMap="QuestionExamMap">
         select
-          id, exam_desc, exam_course, paper_id, exam_date, total_time, major, institute, total_score, exam_type
-        from question_exam
-        where id=#{id}
+          e.id, e.exam_desc, e.exam_course, e.paper_id, e.exam_date, e.total_time,e.total_score, e.exam_type,
+          (SELECT t.name from t_major t where t.id=e.major) major,
+          (SELECT t.name FROM t_institute t WHERE t.id=e.institute) institute
+        from question_exam e
+        where e.id=#{id}
     </select>
 
+    <insert id="add" parameterType="com.qxf.pojo.QuestionExam">
+        INSERT INTO question_exam(id,exam_course,exam_desc,exam_date,total_time,major,institute,total_score)
+        VALUES (#{id},#{examCourse},#{examDesc},#{examDate},#{totalTime},#{major},#{institute},#{totalScore})
+    </insert>
+
+    <update id="updateScoreByPaperId" parameterType="com.qxf.pojo.QuestionExam">
+        UPDATE question_exam set total_score=#{totalScore} WHERE paper_id=#{paperId}
+    </update>
 
 </mapper>

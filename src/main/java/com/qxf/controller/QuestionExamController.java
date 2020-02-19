@@ -40,4 +40,9 @@ public class QuestionExamController {
         QuestionExam result = questionExamService.getExamById(id);
         return ResultUtil.result(EnumCode.OK.getValue(),"请求成功", JSONObject.toJSONString(result));
     }
+
+    @PostMapping("/add")
+    public Object add(QuestionExam exam) {
+        return this.questionExamService.add(exam);
+    }
 }
