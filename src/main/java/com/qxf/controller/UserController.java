@@ -5,8 +5,10 @@ import com.qxf.ftp.UploadUtil;
 import com.qxf.pojo.User;
 import com.qxf.service.UserService;
 import com.qxf.utils.EnumCode;
+import com.qxf.utils.ExcelUtil;
 import com.qxf.utils.ResultUtil;
 import org.apache.ibatis.annotations.Param;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -15,8 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,5 +132,87 @@ public class UserController extends BaseController {
     public Object editUserInfo(User vo) {
         return userService.editUserInfo(vo);
     }
+
+
+    /**
+     * 导出报表，这里get和post请求复用了该方法，仅仅是为了测试
+     *
+     * @return
+     */
+    @RequestMapping(value = "/export")
+    @ResponseBody
+    public void export(@RequestBody(required = false) User user,String username,HttpServletResponse response) throws Exception {
+        if (user ==null && !StringUtils.isEmpty(username)){
+            //GET 请求的参数
+            user = new User();
+            user.setUsername(username);
+        }
+        //获取数据
+        List<User> list = userService.findAllUser(user);
+
+        //excel标题
+        String[] title = {"姓名", "邮箱", "创建时间", "最近登录时间","角色","是否可用"};
+
+        //excel文件名
+        String fileName = System.currentTimeMillis() + ".xls";
+
+        //sheet名
+        String sheetName = "用户信息";
+
+        //没有数据就传入null吧，Excel工具类有对null判断
+        String [][] content = null;
+
+        if (list != null && list.size() > 0){
+            content = new String[list.size()][title.length];
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            for (int i = 0; i < list.size(); i++) {
+                content[i] = new String[title.length];
+                User obj = list.get(i);
+                content[i][0] = obj.getUsername();
+                content[i][1] = obj.getEmail();
+                content[i][2] = obj.getCreateTime() == null ? "" : sdf.format(obj.getCreateTime());
+                content[i][3] = obj.getLastLoginTime() == null ? "": sdf.format(obj.getLastLoginTime());
+                content[i][4] = obj.getRoleName();
+                content[i][5] = obj.getEnable()==1 ? "是" : "否";
+            }
+        }
+
+        //创建HSSFWorkbook
+        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName, title, content);
+
+        //响应到客户端
+        try {
+            this.setResponseHeader(response, fileName);
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            OutputStream os = response.getOutputStream();
+            wb.write(os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 发送响应流方法
+     */
+    public void setResponseHeader(HttpServletResponse response, String fileName) {
+        try {
+            try {
+                fileName = new String(fileName.getBytes(), "ISO8859-1");
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            response.setContentType("application/octet-stream;charset=ISO8859-1");
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.addHeader("Pargam", "no-cache");
+            response.addHeader("Cache-Control", "no-cache");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
 }

@@ -14,6 +14,10 @@ import java.util.List;
  * @Description: com.qxf.service
  */
 public interface UserService extends IService<User>{
+
+    //不分页查询
+    List<User> findAllUser(User user);
+
     /**
      * 根据用户名查询用户
      */

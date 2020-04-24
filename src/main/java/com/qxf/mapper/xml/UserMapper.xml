@@ -14,7 +14,7 @@
 		<result column="last_login_time" property="lastLoginTime" />
 	</resultMap>
 
-	<select id="findUserByPage" resultType="com.qxf.pojo.User">
+	<sql id="queryAll">
 		SELECT
 		u.id,
 		u.username,
@@ -30,9 +30,19 @@
 		INNER JOIN t_user_role ur ON u.id = ur.user_id
 		INNER JOIN t_role r ON ur.role_id = r.id
 		WHERE 1=1
-		  <if test="username != null and ''!= username">
-             AND u.username LIKE CONCAT('%',#{username},'%')
-		  </if>
+		<if test="username != null and ''!= username">
+			AND u.username LIKE CONCAT('%',#{username},'%')
+		</if>
+	</sql>
+
+	<!--分页查询-->
+	<select id="findUserByPage" resultType="com.qxf.pojo.User">
+		<include refid="queryAll" />
+	</select>
+
+	<!--不分页查询-->
+	<select id="findAllUser" resultType="com.qxf.pojo.User">
+		<include refid="queryAll" />
 	</select>
 
 	<select id="checkUser" resultType="com.qxf.pojo.User">

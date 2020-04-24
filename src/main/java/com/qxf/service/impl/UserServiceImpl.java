@@ -150,6 +150,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         return ResultUtil.result(EnumCode.INTERNAL_SERVER_ERROR.getValue(), "修改失败");
     }
 
+    @Override
+    public List<User> findAllUser(User user) {
+        return super.baseMapper.findAllUser(user);
+    }
+
     /**
      * 根据用户名查询用户
      */

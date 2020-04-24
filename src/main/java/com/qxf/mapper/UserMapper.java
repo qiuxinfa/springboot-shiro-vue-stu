@@ -19,4 +19,7 @@ public interface UserMapper extends BaseMapper<User>{
     List<User> checkUser(User user);
 
     User findUserByUsername(String username);
+
+    //不分页查询
+    List<User> findAllUser(User user);
 }
