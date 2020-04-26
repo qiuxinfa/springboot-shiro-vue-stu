@@ -27,5 +27,3 @@ spring:
 mybatis:
   mapper-locations: classpath:com/qxf/mapper/xml/*.xml
   type-aliases-package: com.qxf.pojo
-
-

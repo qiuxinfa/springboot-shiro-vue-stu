@@ -182,8 +182,8 @@ public class UserController extends BaseController {
 
         //响应到客户端
         try {
-            fileName = new String(fileName.getBytes(), "UTF-8");
-            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+//            fileName = new String(fileName.getBytes(), "UTF-8");
+//            response.setContentType("application/vnd.ms-excel;charset=utf-8");
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
             OutputStream os = response.getOutputStream();
             wb.write(os);
