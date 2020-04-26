@@ -21,9 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Auther: qiuxinfa
@@ -82,7 +80,6 @@ public class UserController extends BaseController {
             return "上传失败，因为文件是空的.";
         }
     }
-
 
     /**
      * @desc: 查询用户
@@ -192,6 +189,42 @@ public class UserController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * 批量导入用户
+     *
+     */
+    @RequestMapping(value = "/import")
+    @ResponseBody
+    public Object ExcelImport(MultipartFile[] multipartFiles) throws Exception {
+        if (multipartFiles == null || multipartFiles.length < 1){
+            return ResultUtil.result(EnumCode.INTERNAL_SERVER_ERROR.getValue(),"空数据，导入失败");
+        }
+        for (MultipartFile file : multipartFiles){
+            List<String[]> list = ExcelUtil.readExcel(file);
+            if (list.isEmpty()){
+                return ResultUtil.result(EnumCode.INTERNAL_SERVER_ERROR.getValue(),"空数据，导入失败");
+            }
+
+            for (int i=0;i<list.size();i++){
+                String[] values = list.get(i);
+                //这里只导入了3列数据：姓名、邮箱和是否可用（0、1），其他列可自行导入，现转换格式再写入数据库，比如：
+                //导入角色的时候，根据角色名称查找角色id，如果角色id不存在，可以默认为学生之类的处理
+                User user = new User();
+                user.setUsername(values[0]);
+                user.setEmail(values[1]);
+                user.setEnable(values[2] == null ? 1 : Integer.valueOf(values[2]));
+                user.setCreateTime(new Date());
+                user.setId(UUID.randomUUID().toString().replace("-",""));
+                user.setPassword("a123456");
+                user.setRoleId("3");
+                userService.addUser(user);
+            }
+        }
+        //前端可以通过状态码，判断文件是否上传成功
+        return ResultUtil.result(EnumCode.OK.getValue(),"文件上传成功");
     }
 
 }
