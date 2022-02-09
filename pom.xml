@@ -28,7 +28,7 @@
         <velocity.version>1.7</velocity.version>
         <fastjson.version>1.2.25</fastjson.version>
         <hutool.version>3.2.3</hutool.version>
-        <shiro.version>1.3.2</shiro.version>
+        <shiro.version>1.7.1</shiro.version>
     </properties>
 
     <dependencies>
